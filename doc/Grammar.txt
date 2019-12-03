@@ -1,0 +1,45 @@
+Tex Formal Grammer
+
+Productions sorted by depth
+
+* - Zero or more times
+? - Optional
+{} - Keyword
+'' - Character/String
+-----------------------------------------------
+
+program := (statement)* EOF
+
+block_stmt := (statement)* {end}
+
+statement := assignment
+           = print_stmt
+           = if_stmt
+           = while_stmt
+
+print_stmt := {print} l_expr
+
+if_stmt := {check} '[' l_expr ']' ':' '\n' block_stmt '\n' ifelse_stmt* else_stmt?
+
+while_stmt := {while} '[' l_expr ']' ':' '\n' block_stmt '\n'
+
+ifelse_stmt := {celse} '[' l_expr ']' ':' '\n' block_stmt
+
+else_stmt := {else} ':' '\n' block_stmt
+
+assignment := l_expr '->' IDENTIFIER
+
+string := '"' STRING '"'
+
+l_expr := a_expr (('=' | '<=' | '>=' | '>' | '<' | '!=' | '&&' | '||') a_expr)*
+        = '!' l_expr
+
+a_expr := term ((+ | -) term)*
+
+term := factor ((* | /) factor)*
+
+factor := FLOAT
+        = IDENTIFIER
+        = {true} | {false}
+        = (- | +) factor
+        = '(' expr ')'
