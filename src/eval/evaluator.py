@@ -47,6 +47,7 @@ class Evaluator:
                 if r.val == 0: raise RunTimeException(node.line,"Division by 0.")
                 return types.Float(l.divide(r))
             elif node.op == '*': return types.Float(l.multiply(r))
+            elif node.op == '%': return types.Float(l.modulo(r))
         if node.op == '=': return types.Boolean(1 if l.val == r.val else 0)
         elif node.op == '<': return types.Boolean(1 if l.val < r.val else 0)
         elif node.op == '<=': return types.Boolean(1 if l.val <= r.val else 0)

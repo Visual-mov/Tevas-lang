@@ -12,6 +12,7 @@ class Float:
     def multiply(self, node):
         return self.val * node.val
     def negate(self): return Float(self.multiply(Float(-1)))
+    def modulo(self, node): return self.val % node.val
 
     #! __repr__ ONLY USED FOR DEBUGGING
     def __repr__(self):
@@ -40,7 +41,3 @@ class Boolean:
 
     def __repr__(self):
         return f'BOOL: {"true" if self.val == 1 else "false"}'
-
-class NullType:
-    def __init__(self):
-        pass

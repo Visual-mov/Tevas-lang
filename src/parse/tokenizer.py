@@ -76,7 +76,7 @@ class Tokenizer:
                 self.tokens.append(Token(self.line,self.get_digit(),NUM))
             elif str.isalpha(c) or c in ("_"):
                 self.tokens.append(self.get_char_token())
-            elif self.m("[+/*^]",c): 
+            elif self.m("[+/*^%]",c): 
                 self.tokens.append(Token(self.line,c,OP))
             elif self.m("[()]",c): 
                 self.tokens.append(Token(self.line,c,L_PAREN if c == '(' else R_PAREN))
@@ -85,7 +85,7 @@ class Tokenizer:
         self.append_EOF()
         return self.tokens
 
-    #TODO: Change these parameter names to better reflect their perpose.
+    #TODO: Change these parameter names to better reflect their purpose.
     def double_lexeme(self, c, cp, expected_seek, type1, type2=L_OP):
         if cp != expected_seek:
             self.tokens.append(Token(self.line,c,type1))

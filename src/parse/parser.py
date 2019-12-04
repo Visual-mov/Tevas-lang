@@ -150,7 +150,7 @@ class Parser:
                 raise ParserException(tok.line,"Expected ')'")
 
     def term(self):
-        return self.bin_op(self.factor,("*","/"))
+        return self.bin_op(self.factor,("*","/","%"))
 
     def a_expr(self):
         return self.bin_op(self.term,("+","-"))
@@ -158,7 +158,7 @@ class Parser:
     def l_expr(self):
         if self.curtok.literal == '!':
             self.advance()
-            return self.l_expr()
+            return UnaryOpNode("!", self.l_expr(), self.curtok.line)
         else:
             return self.bin_op(self.a_expr,("=","!=","<=",">=","<",">"))
 

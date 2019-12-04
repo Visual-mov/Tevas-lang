@@ -23,20 +23,18 @@ if_stmt := {check} '[' l_expr ']' ':' '\n' block_stmt '\n' ifelse_stmt* else_stm
 
 while_stmt := {while} '[' l_expr ']' ':' '\n' block_stmt '\n'
 
-ifelse_stmt := {celse} '[' l_expr ']' ':' '\n' block_stmt
+ifelse_stmt := {celse} '[' l_expr ']' ':' '\n' block_stmt '\n'
 
 else_stmt := {else} ':' '\n' block_stmt
 
 assignment := l_expr '->' IDENTIFIER
-
-string := '"' STRING '"'
 
 l_expr := a_expr (('=' | '<=' | '>=' | '>' | '<' | '!=' | '&&' | '||') a_expr)*
         = '!' l_expr
 
 a_expr := term ((+ | -) term)*
 
-term := factor ((* | /) factor)*
+term := factor ((* | / | %) factor)*
 
 factor := FLOAT
         = IDENTIFIER
