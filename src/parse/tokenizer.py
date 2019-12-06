@@ -15,10 +15,10 @@ R_BRACKET = "RIGHT_BRACKET"
 
 B_BLCK = "BEGIN_BLOCK"
 OP = "OPERATOR"
-D_QUOTE = "DOUBLE_QUOTE"
 ASSIGN = "ASSIGNMENT"
 
 NUM = "NUMBER"
+STR = "STRING"
 ID = "IDENTIFIER"
 KEY = "KEYWORD"
 
@@ -54,16 +54,14 @@ class Tokenizer:
             c = self.source[self.i]
             cp = self.peek()
             if c == '~':
-                while self.i < len(self.source):
-                    if self.peek() == '\n': break
-                    else: self.advance() 
+                self.scan("\n")
             elif c == '\n':
                 self.tokens.append(Token(self.line,c,NL))
                 self.line += 1
             elif c == '-':
                 self.double_lexeme(c,cp,'>',OP,ASSIGN)
             elif c == "\"":
-                self.tokens.append(Token(self.line,c,D_QUOTE))
+                self.tokens.append(Token(self.line,self.scan(c),STR))
             elif c in ('>','<','!'): 
                 self.double_lexeme(c,cp,'=',L_OP)
             elif c == '=': 
@@ -103,6 +101,16 @@ class Tokenizer:
     def get_char_token(self):
         result = self.seek_m("[a-zA-Z_]")
         return Token(self.line, result, ID) if result not in self.keywords else Token(self.line,result,KEY)
+    
+    def scan(self, c):
+        result = ""
+        while self.i < len(self.source):
+            result += self.source[self.i] if not self.source[self.i] == c else ""
+            if self.peek() == c: break
+            else: self.advance()
+        self.advance()
+        return result
+
 
     def get_digit(self):
         #TODO Improve regex for scanning floats.

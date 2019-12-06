@@ -4,11 +4,18 @@ import parse.tokenizer as tokenizer
 
 # Node types
 class NumNode:
-    def __init__(self,literal,line):
-        self.literal = literal
+    def __init__(self,val,line):
+        self.val = val
         self.line = line
     def __repr__(self):
-        return str(self.literal)
+        return str(self.val)
+
+class StringNode:
+    def __init__(self,val,line):
+        self.val = val
+        self.line = line
+    def __repr__(self):
+        return f'\"{self.val}\"'
 
 class BooleanNode:
     def __init__(self, val, line):
@@ -138,6 +145,10 @@ class Parser:
         elif tok.literal == "true" or tok.literal == "false":
             self.advance()
             return BooleanNode(1 if tok.literal == "true" else 0, self.curtok.line)
+        elif tok.type == tokenizer.STR:
+            str = self.curtok.literal
+            self.advance()
+            return StringNode(str,self.curtok.line)
         elif tok.literal in ("+", "-"):
             op = tok.literal
             self.advance()

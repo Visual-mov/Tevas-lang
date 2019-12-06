@@ -50,6 +50,7 @@ class Evaluator:
                 return types.Float(l.divide(r))
             elif node.op == '*': return types.Float(l.multiply(r))
             elif node.op == '%': return types.Float(l.modulo(r))
+            
         if node.op == '=': return types.Boolean(1 if l.val == r.val else 0)
         elif node.op == '<': return types.Boolean(1 if l.val < r.val else 0)
         elif node.op == '<=': return types.Boolean(1 if l.val <= r.val else 0)
@@ -68,10 +69,13 @@ class Evaluator:
             return types.Boolean(self.visit(node.node).val).Not()
 
     def v_NumNode(self, node):
-        return types.Float(node.literal)
+        return types.Float(node.val)
     
     def v_BooleanNode(self, node):
         return types.Boolean(node.val)
+
+    def v_StringNode(self, node):
+        return types.String(node.val)
 
     def v_VAssignmentNode(self, node):
         val = self.visit(node.expr)

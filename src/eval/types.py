@@ -22,14 +22,14 @@ class Float:
         return f'FLOAT: {self.val}'
 
 class String:
-    def __init__(self,str):
-        self.str = str
+    def __init__(self,val):
+        self.val = val
     
     def add_string(self,str1):
-        self.str += str1
+        self.val += str1
 
     def __repr__(self):
-        return f'STRING: {self.str}'
+        return f'STRING: {self.val}'
 
 class Boolean:
     def __init__(self,val):

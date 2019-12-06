@@ -1,0 +1,14 @@
+~ Bad version of fizzbuzz
+
+50 -> n
+1 -> i
+while[i <= n]:
+    print i
+    check[i % 3 = 0]:
+        print "Fizz"
+    end
+    check[i % 5 = 0]:
+        print "Buzz"
+    end
+    i + 1 -> i
+end
