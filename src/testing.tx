@@ -1,5 +1,0 @@
-1 -> i
-while[i <= 20]:
-    print i
-    i + 1 -> i
-end

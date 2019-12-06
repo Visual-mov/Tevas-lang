@@ -64,6 +64,8 @@ class Evaluator:
             return types.Float(self.visit(node.node).val).negate()
         elif node.op == '+':
             return types.Float(self.visit(node.node).val).abs()
+        elif node.op == '!':
+            return types.Boolean(self.visit(node.node).val).Not()
 
     def v_NumNode(self, node):
         return types.Float(node.literal)

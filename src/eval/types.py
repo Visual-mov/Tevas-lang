@@ -40,7 +40,7 @@ class Boolean:
     def Or(self,bool):
         return Boolean(1 if self.val == 1 or bool.val == 1 else 0)
     def Not(self):
-        return Boolean(1 if self.val == 0 else 1)
+        return Boolean(1 if self.val == 0 else 0)
 
     def __repr__(self):
         return f'BOOL: {"true" if self.val == 1 else "false"}'
