@@ -3,3 +3,6 @@ Tex is a dynamically-typed functional language. Tex is currently in active devel
 
 ## So what's it for?
 Tex is the most amazing language that has graced this Earth in decades. *Sure...* In all seriousness, Tex is the first language that I've written. As such, it's a "toy" language. It wasn't created with any practical use in mind. However, I do plan to implement some functionality that will make it comparable to a scientific calculator in the future.
+
+## Contributing
+If you feel any changes can be made, feel free to contribute! I haven't written any unit tests yet, so please test the changes on your local machine.
