@@ -55,6 +55,7 @@ class Tokenizer:
             cp = self.peek()
             if c == '~':
                 self.scan("\n")
+                self.line += 1
             elif c == '\n':
                 self.tokens.append(Token(self.line,c,NL))
                 self.line += 1
@@ -107,10 +108,11 @@ class Tokenizer:
         while self.i < len(self.source):
             result += self.source[self.i] if not self.source[self.i] == c else ""
             if self.peek() == c: break
+            elif self.peek() == '\n' and not c == '\n': 
+                raise LexerException(self.line,"Expected " + c + " character.")
             else: self.advance()
         self.advance()
         return result
-
 
     def get_digit(self):
         #TODO Improve regex for scanning floats.

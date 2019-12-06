@@ -50,7 +50,7 @@ class Evaluator:
                 return types.Float(l.divide(r))
             elif node.op == '*': return types.Float(l.multiply(r))
             elif node.op == '%': return types.Float(l.modulo(r))
-            
+
         if node.op == '=': return types.Boolean(1 if l.val == r.val else 0)
         elif node.op == '<': return types.Boolean(1 if l.val < r.val else 0)
         elif node.op == '<=': return types.Boolean(1 if l.val <= r.val else 0)
@@ -85,7 +85,7 @@ class Evaluator:
     def v_VAccessNode(self, node):
         var = self.gTable.lookup(node.id)
         if var == None:
-            raise RunTimeException(node.line,f'Varible "{node.id}" not defined.')
+            raise RunTimeException(node.line,f'"{node.id}" is not defined.')
         return var
     
     def v_PrintNode(self, node):

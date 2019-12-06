@@ -1,4 +1,5 @@
 from parse.parser import NumNode
+
 class Float:
     def __init__(self,val):
         self.val = val
@@ -11,7 +12,7 @@ class Float:
         return self.val / node.val
     def multiply(self, node):
         return self.val * node.val
-    def modulo(self, node): \
+    def modulo(self, node):
         return self.val % node.val
 
     def negate(self): return Float(self.multiply(Float(-1)))
@@ -36,7 +37,7 @@ class Boolean:
         self.val = val
     
     def And(self,bool):
-        return Boolean(1 if self.val and bool.val == 1 else 0)
+        return Boolean(1 if self.val == 1 and bool.val == 1 else 0)
     def Or(self,bool):
         return Boolean(1 if self.val == 1 or bool.val == 1 else 0)
     def Not(self):
