@@ -4,8 +4,9 @@ from parse.parser import Parser
 from parse.tokenizer import Tokenizer
 import eval.evaluator as eval
 
-# The Tex Language REPL v1.0
-# For more information and documentation, go to [URL]
+# The Tex Programming Language REPL v1.0
+# www.github.com/Visual-mov/Tex-lang
+#
 # Copywrite(c) Ryan Danver 2019
 
 def repl(argv):
@@ -41,8 +42,6 @@ def repl(argv):
 
             # Execute the AST.
             evaluator = eval.Evaluator(ast,gTable)
-            
-            # temp
             evaluator.eval()
 
             line+=1

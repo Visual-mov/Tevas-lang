@@ -2,7 +2,7 @@ class TexExeption:
     def __init__(self,line, errtype, message):
         self.line = line
         self.message = message
-        execption = f'Line {line}: {errtype}. {message}'
+        execption = f'Line {line}: {errtype}: {message}'
         print(u"\u001b[31m" + execption + u"\u001b[0m")
         exit()
     
@@ -12,7 +12,9 @@ class LexerException(TexExeption):
 
 class ParserException(TexExeption):
     def __init__(self,line,message="",type=""):
-        if type == "expected": message = f"Expected '{message}' token."
+        if type == "ex": message = f"Expected '{message}' token."
+        elif type == "unex": message = f"Unexpected '{message}' token."
+        elif type == "unex-general": message = f"Unexpected token."
         super().__init__(line, "Parse error", message)
         
 class RunTimeException(TexExeption):

@@ -1,5 +1,7 @@
+import sys
 import eval.types as types
 from exceptions import RunTimeException
+import parse.parser as parser
 
 # Symbol Table
 class SymbolTable:
@@ -58,9 +60,12 @@ class Evaluator:
         raise RunTimeException(node.line,"Can not apply arithmetical operations on " + type(l).__name__ + " and " + type(r).__name__)
 
     def v_UnaryOpNode(self, node):
-        if node.op == '-': return types.Float(node.literal).negate()
+        if node.op == '-':
+            return types.Float(self.visit(node.node).val).negate()
+        elif node.op == '+':
+            return types.Float(self.visit(node.node).val).abs()
 
-    def v_NumNode(self,node):
+    def v_NumNode(self, node):
         return types.Float(node.literal)
     
     def v_BooleanNode(self, node):
@@ -81,7 +86,7 @@ class Evaluator:
         val = self.visit(node.expr)
         if isinstance(val,types.Boolean):
             print("true" if val.val == 1 else "false")
-        else: print(val.val)
+        else: sys.stdout.write(str(val.val) + '\n')
         return val
 
     def v_CheckNode(self,node):

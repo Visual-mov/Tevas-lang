@@ -1,20 +1,5 @@
-
-~ This is just for testing purposes lol
-
 1 -> i
 while[i <= 20]:
-    check[i % 2 = 0]:
-        print i
-    end
+    print i
     i + 1 -> i
-end
-
-1 -> myVar
-2 -> myOtherVar
-
-check[myVar != myOtherVar]:
-    myOtherVar - 1 -> myOtherVar
-    check[myVar = myOtherVar]:
-        print 420
-    end
 end

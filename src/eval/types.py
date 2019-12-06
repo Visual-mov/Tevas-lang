@@ -11,8 +11,11 @@ class Float:
         return self.val / node.val
     def multiply(self, node):
         return self.val * node.val
+    def modulo(self, node): \
+        return self.val % node.val
+
     def negate(self): return Float(self.multiply(Float(-1)))
-    def modulo(self, node): return self.val % node.val
+    def abs(self): return Float(abs(self.val))
 
     #! __repr__ ONLY USED FOR DEBUGGING
     def __repr__(self):

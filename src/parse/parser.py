@@ -28,12 +28,12 @@ class BinaryOpNode:
         return f'({str(self.left)} {str(self.op)} {str(self.right)})'
 
 class UnaryOpNode:
-    def __init__(self,op,literal,line):
+    def __init__(self,op,node,line):
         self.op = op
-        self.literal = literal
+        self.node = node
         self.line = line
     def __repr__(self):
-        return f'{self.op}{self.literal}'
+        return f'{self.op}{self.node}'
 
 
 class VAssignmentNode:
@@ -133,13 +133,15 @@ class Parser:
         elif tok.type == tokenizer.ID:
             self.advance()
             return VAccessNode(tok.literal,self.curtok.line)
+        elif tok.type == tokenizer.EOF:
+            raise ParserException(self.curtok,"EOF","unex")
         elif tok.literal == "true" or tok.literal == "false":
             self.advance()
             return BooleanNode(1 if tok.literal == "true" else 0, self.curtok.line)
         elif tok.literal in ("+", "-"):
             op = tok.literal
             self.advance()
-            return UnaryOpNode(op,self.factor().literal,self.curtok.line)
+            return UnaryOpNode(op,self.factor(),self.curtok.line)
         elif tok.literal == '(':
             self.advance()
             expr = self.a_expr()
@@ -148,6 +150,7 @@ class Parser:
                 return expr
             else:
                 raise ParserException(tok.line,"Expected ')'")
+        else: raise ParserException(tok.line, "", "unex-general")
 
     def term(self):
         return self.bin_op(self.factor,("*","/","%"))
@@ -170,14 +173,13 @@ class Parser:
             if isinstance(id,VAccessNode):
                 return VAssignmentNode(expr, id.id, self.curtok.line)
             else:
-                raise ParserException(self.curtok.line,"Expected Identifier")
+                raise ParserException(self.curtok.line,"Identifier", "ex")
         else: return expr
 
     def print_stmt(self):
-        if self.curtok.literal == "print":
-            self.advance()
-            expr = self.l_expr()
-            return PrintNode(expr,self.curtok.line)
+        self.advance()
+        expr = self.l_expr()
+        return PrintNode(expr,self.curtok.line)
 
     def else_stmt(self):
         pass
@@ -208,7 +210,7 @@ class Parser:
         statements = []
         while not self.curtok.literal == "end":
             if self.curtok.type == tokenizer.EOF:
-                raise ParserException(self.curtok.line,"end","expected")
+                raise ParserException(self.curtok.line,"end","ex")
             if not self.curtok.type == tokenizer.NL:
                 statements.append(self.statement())
             self.advance()

@@ -54,9 +54,9 @@ class Tokenizer:
             c = self.source[self.i]
             cp = self.peek()
             if c == '~':
-                while self.source[self.i] != '\n': 
-                    self.advance() 
-                    print(c)
+                while self.i < len(self.source):
+                    if self.peek() == '\n': break
+                    else: self.advance() 
             elif c == '\n':
                 self.tokens.append(Token(self.line,c,NL))
                 self.line += 1
