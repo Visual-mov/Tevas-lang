@@ -1,6 +1,6 @@
 ~ Bad version of fizzbuzz
 
-50 -> n
+20 -> n
 1 -> i
 while[i <= n]:
     println i

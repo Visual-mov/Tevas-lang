@@ -85,14 +85,6 @@ class Tokenizer:
         self.append_EOF()
         return self.tokens
 
-    #TODO: Change these parameter names to better reflect their purpose.
-    def double_lexeme(self, c, cp, expected_seek, type1, type2=L_OP):
-        if cp != expected_seek:
-            self.tokens.append(Token(self.line,c,type1))
-        else:
-            self.tokens.append(Token(self.line,c+cp,type2))
-            self.advance()
-
     def m(self, pat, char):
         return re.match(pat,char) != None
 
@@ -101,28 +93,36 @@ class Tokenizer:
         return self.source[index] if index < len(self.source) else None
         
     def get_char_token(self):
-        result = self.seek_m("[a-zA-Z_]")
+        result = self.scan_match("[a-zA-Z_]")
         return Token(self.line, result, ID) if result not in self.keywords else Token(self.line,result,KEY)
     
+    def get_digit(self):
+        #TODO Improve regex for scanning floats.
+        return float(self.scan_match("[0-9.]"))
+
+    #TODO: Change these parameter names to better reflect their purpose.
+    def double_lexeme(self, c, cp, expected_seek, type1, type2=L_OP):
+        if cp != expected_seek:
+            self.tokens.append(Token(self.line,c,type1))
+        else:
+            self.tokens.append(Token(self.line,c+cp,type2))
+            self.advance()
+        
     def scan(self, c):
-        result = ""
-        while self.i < len(self.source):
-            result += self.source[self.i] if not self.source[self.i] == c else ""
+        found = ""
+        for index in range(self.i,len(self.source)):
+            found += self.source[index] if not self.source[index] == c else ""
             if self.peek() == c: break
             elif self.peek() == '\n' and not c == '\n': 
                 raise LexerException(self.line,"Expected " + c + " character.")
             else: self.advance()
         self.advance()
-        return result
+        return found
 
-    def get_digit(self):
-        #TODO Improve regex for scanning floats.
-        return float(self.seek_m("[0-9.]"))
-
-    def seek_m(self, pat):
+    def scan_match(self, pat):
         found = ""
         for index in range(self.i,len(self.source)):
-            if self.source[index] != None and re.match(pat, str(self.source[index])) != None:
+            if re.match(pat, str(self.source[index])) != None:
                 found+=self.source[index]
                 self.advance()
             else: break

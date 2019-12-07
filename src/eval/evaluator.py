@@ -41,22 +41,31 @@ class Evaluator:
         r = self.visit(node.right)
         l = self.visit(node.left)
 
-        #TODO Add more error-handling for expressions.
         if self.check_type(l,r,types.Float):
-            if node.op == '+': return types.Float(l.add(r))
-            elif node.op == '-': return types.Float(l.minus(r))
+            if node.op == '+':
+                return types.Float(l.add(r))
+            elif node.op == '-':
+                return types.Float(l.minus(r))
             elif node.op == '/':
-                if r.val == 0: raise RunTimeException(node.line,"Division by 0.")
+                if r.val == 0:
+                    raise RunTimeException(node.line,"Division by 0.")
                 return types.Float(l.divide(r))
-            elif node.op == '*': return types.Float(l.multiply(r))
-            elif node.op == '%': return types.Float(l.modulo(r))
-
-        if node.op == '=': return types.Boolean(1 if l.val == r.val else 0)
-        elif node.op == '<': return types.Boolean(1 if l.val < r.val else 0)
-        elif node.op == '<=': return types.Boolean(1 if l.val <= r.val else 0)
-        elif node.op == '>': return types.Boolean(1 if l.val > r.val else 0)
-        elif node.op == '>=': return types.Boolean(1 if l.val >= r.val else 0)
-        elif node.op == '!=': return types.Boolean(1 if not l.val == r.val else 0)
+            elif node.op == '*':
+                return types.Float(l.multiply(r))
+            elif node.op == '%':
+                return types.Float(l.modulo(r))
+        if node.op == '=':
+            return types.Boolean(1 if l.val == r.val else 0)
+        elif node.op == '<':
+            return types.Boolean(1 if l.val < r.val else 0)
+        elif node.op == '<=':
+            return types.Boolean(1 if l.val <= r.val else 0)
+        elif node.op == '>':
+            return types.Boolean(1 if l.val > r.val else 0)
+        elif node.op == '>=':
+            return types.Boolean(1 if l.val >= r.val else 0)
+        elif node.op == '!=':
+            return types.Boolean(1 if not l.val == r.val else 0)
 
         raise RunTimeException(node.line,"Can not apply arithmetical operations on " + type(l).__name__ + " and " + type(r).__name__)
 
@@ -90,7 +99,7 @@ class Evaluator:
     
     def v_PrintNode(self, node):
         val = self.visit(node.expr)
-        sys.stdout.write(str(val.get_literal()) + ('\n' if node.println else ""))
+        sys.stdout.write(val.get_literal() + ('\n' if node.println else ""))
 
     def v_CheckNode(self,node):
         expr = self.visit(node.expr)

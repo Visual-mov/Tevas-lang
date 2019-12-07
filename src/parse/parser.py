@@ -162,7 +162,7 @@ class Parser:
                 return expr
             else:
                 raise ParserException(tok.line,"Expected ')'")
-        else: raise ParserException(tok.line, "", "unex-general")
+        else: raise ParserException(tok.line, tok.literal, "unex")
 
     def term(self):
         return self.bin_op(self.factor,("*","/","%"))
