@@ -3,12 +3,12 @@
 50 -> n
 1 -> i
 while[i <= n]:
-    print i
+    println i
     check[i % 3 = 0]:
-        print "Fizz"
+        println "Fizz"
     end
     check[i % 5 = 0]:
-        print "Buzz"
+        println "Buzz"
     end
     i + 1 -> i
 end

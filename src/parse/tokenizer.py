@@ -46,7 +46,8 @@ class Tokenizer:
             "func","return",
             "continue","break",
             "true","false",
-            "print", "end"
+            "print", "println",
+            "end"
         ]
 
     def lex(self):

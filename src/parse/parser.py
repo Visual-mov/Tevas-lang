@@ -83,11 +83,12 @@ class WhileNode:
         return f'WHILE[{self.expr}]: {self.block}'
 
 class PrintNode:
-    def __init__(self, expr, line):
+    def __init__(self, expr, line, println):
         self.expr = expr
         self.line = line
+        self.println = println
     def __repr__(self):
-        return f'PRINT[{self.expr}]'
+        return f'PRINT{"LN" if self.println else ""}[{self.expr}]'
         
 class Parser:
     def __init__(self, tokens):
@@ -187,10 +188,10 @@ class Parser:
                 raise ParserException(self.curtok.line,"Identifier", "ex")
         else: return expr
 
-    def print_stmt(self):
+    def print_stmt(self, key):
         self.advance()
         expr = self.l_expr()
-        return PrintNode(expr,self.curtok.line)
+        return PrintNode(expr,self.curtok.line, True if key == "println" else False)
 
     def else_stmt(self):
         pass
@@ -210,7 +211,7 @@ class Parser:
 
     def statement(self):
         val = self.curtok.literal
-        if val == "print": return self.print_stmt()
+        if val == "print" or val == "println": return self.print_stmt(val)
         elif val == "check": return self.if_stmt()
         elif val == "while": return self.while_stmt()
         elif val in ('\n', '\r\n'): self.advance()

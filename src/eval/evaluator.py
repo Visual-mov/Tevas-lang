@@ -90,10 +90,7 @@ class Evaluator:
     
     def v_PrintNode(self, node):
         val = self.visit(node.expr)
-        if isinstance(val,types.Boolean):
-            print("true" if val.val == 1 else "false")
-        else: sys.stdout.write(str(val.val) + '\n')
-        return val
+        sys.stdout.write(str(val.get_literal()) + ('\n' if node.println else ""))
 
     def v_CheckNode(self,node):
         expr = self.visit(node.expr)
