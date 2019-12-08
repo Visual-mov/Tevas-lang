@@ -17,7 +17,6 @@ class SymbolTable:
         if val == None and not self.parent == None:
             return self.parent.lookup(key)
         else: return val
-        return None
 
     def remove(self, key):
         del list[key] 
