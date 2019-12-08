@@ -3,6 +3,7 @@ import parse.tokenizer as tokenizer
 # Parser
 
 # Node types
+
 class NumNode:
     def __init__(self,val,line):
         self.val = val
@@ -49,7 +50,7 @@ class VAssignmentNode:
         self.id = id
         self.line = line
     def __repr__(self):
-        return f'[{self.expr} -> {self.id}]'
+        return f'[{self.expr} -> {self.id}]\n'
 
 class VAccessNode:
     def __init__(self, id, line):
@@ -60,19 +61,29 @@ class VAccessNode:
 
 
 class CheckNode:
+    def __init__(self, expr, block, celse_stmts, else_stmt, line):
+        self.expr = expr
+        self.block = block
+        self.celse_stmts = celse_stmts
+        self.else_stmt = else_stmt
+        self.line = line
+    def __repr__(self):
+        return f'CHECK[{self.expr}]:\n {self.block}\n {self.celse_stmts}\n {self.else_stmt}'
+
+class CelseNode:
     def __init__(self, expr, block, line):
         self.expr = expr
         self.block = block
         self.line = line
     def __repr__(self):
-        return f'CHECK[{self.expr}]: {self.block}'
+        return f'CELSE[{self.expr}]:\n {self.block}\n'
 
 class ElseNode:
     def __init__(self, block, line):
         self.block = block
         self.line = line
     def __repr__(self):
-        return f'ELSE[{self.block}]'
+        return f'ELSE:\n{self.block}\n'
 
 class WhileNode:
     def __init__(self, expr, block, line):
@@ -80,7 +91,7 @@ class WhileNode:
         self.block = block
         self.line = line
     def __repr__(self):
-        return f'WHILE[{self.expr}]: {self.block}'
+        return f'WHILE[{self.expr}]:\n {self.block}\n'
 
 class PrintNode:
     def __init__(self, expr, line, println):
@@ -88,8 +99,9 @@ class PrintNode:
         self.line = line
         self.println = println
     def __repr__(self):
-        return f'PRINT{"LN" if self.println else ""}[{self.expr}]'
+        return f'PRINT{"LN" if self.println else ""}[{self.expr}]\n'
         
+
 class Parser:
     def __init__(self, tokens):
         self.tokens = tokens
@@ -108,11 +120,11 @@ class Parser:
             self.curtok = self.tokens[self.index]
         return self.curtok
 
-    def consume(self,type,token):
-        if self.curtok.type == type and self.curtok.literal == token:
+    def consume(self,type,literal):
+        if self.curtok.type == type and self.curtok.literal == literal:
             self.advance()
             return True
-        else: raise ParserException(self.curtok.line,token,"expected")
+        else: raise ParserException(self.curtok.line,literal,"ex")
     
     def bin_op(self,func,ops):
         l = func()
@@ -130,6 +142,10 @@ class Parser:
         self.consume(tokenizer.R_BRACKET,']')
         self.consume(tokenizer.B_BLCK,':')
         return expr
+
+    def skip_nl(self):
+        self.advance()
+        while self.curtok.type == tokenizer.NL: self.advance()
 
     # Productions
     def factor(self):
@@ -194,15 +210,28 @@ class Parser:
         return PrintNode(expr,self.curtok.line, True if key == "println" else False)
 
     def else_stmt(self):
-        pass
+        self.consume(tokenizer.B_BLCK,':')
+        return ElseNode(self.block_stmt(),self.curtok.line)
 
     def ifelse_stmt(self):
-        pass
+        expr = self.cond_stmt("celse")
+        block = self.block_stmt()
+        return CelseNode(expr, block,self.curtok.line)
 
     def if_stmt(self):
         expr = self.cond_stmt("check")
         block = self.block_stmt()
-        return CheckNode(expr,block,self.curtok.line)
+        celse_stmts = []
+        else_stmt = None
+        self.skip_nl()
+        while self.curtok.literal == "celse":
+            celse_stmts.append(self.ifelse_stmt())
+            self.skip_nl()
+        if self.curtok.literal == "else":
+                self.advance()
+                else_stmt = self.else_stmt()
+
+        return CheckNode(expr,block,celse_stmts,else_stmt,self.curtok.line)
 
     def while_stmt(self):
         expr = self.cond_stmt("while")
@@ -220,18 +249,18 @@ class Parser:
 
     def block_stmt(self):
         statements = []
-        while not self.curtok.literal == "end":
+        while self.curtok.literal != "end":
             if self.curtok.type == tokenizer.EOF:
                 raise ParserException(self.curtok.line,"end","ex")
-            if not self.curtok.type == tokenizer.NL:
+            if self.curtok.type != tokenizer.NL:
                 statements.append(self.statement())
             self.advance()
         return statements
     
     def program(self):
         statements = []
-        while not self.curtok.type == tokenizer.EOF:
-            if not self.curtok.type == tokenizer.NL:
+        while self.curtok.type != tokenizer.EOF:
+            if self.curtok.type != tokenizer.NL:
                 statements.append(self.statement())
             self.advance()
         return statements

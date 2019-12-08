@@ -14,7 +14,7 @@ class SymbolTable:
 
     def lookup(self, key):
         val = self.list.get(key, None)
-        if val == None and not self.parent == None:
+        if val == None and self.parent != None:
             return self.parent.lookup(key)
         else: return val
 
@@ -29,12 +29,13 @@ class Evaluator:
     def eval(self):
         for node in self.tree:
             self.visit(node)
-
-    def check_type(self,l,r,type):
-        return isinstance(l,type) and isinstance(r,type)
-
+    
     def visit(self,node):
         return getattr(self, f'v_{type(node).__name__}', self.v_Unknown)(node)
+
+    def check_type(self,l,r,type=None):
+        if type == None: return isinstance(l,r)
+        else: return isinstance(l,type) and isinstance(r,type)
     
     def v_BinaryOpNode(self, node):
         r = self.visit(node.right)
@@ -64,17 +65,22 @@ class Evaluator:
         elif node.op == '>=':
             return types.Boolean(1 if l.val >= r.val else 0)
         elif node.op == '!=':
-            return types.Boolean(1 if not l.val == r.val else 0)
+            return types.Boolean(1 if l.val != r.val else 0)
 
         raise RunTimeException(node.line,"Can not apply arithmetical operations on " + type(l).__name__ + " and " + type(r).__name__)
 
     def v_UnaryOpNode(self, node):
-        if node.op == '-':
-            return types.Float(self.visit(node.node).val).negate()
-        elif node.op == '+':
-            return types.Float(self.visit(node.node).val).abs()
-        elif node.op == '!':
-            return types.Boolean(self.visit(node.node).val).Not()
+        val = self.visit(node.node)
+
+        if self.check_type(val,types.Float):
+            if node.op == '-':
+                return types.Float(val.val).negate()
+            elif node.op == '+':
+                return types.Float(val.val).abs()
+
+        if node.op == '!' and self.check_type(val,types.Boolean):
+            return types.Boolean(val.val).Not()
+        else: raise RunTimeException(node.line,"Can not apply logical operations on " + type(val).__name__)
 
     def v_NumNode(self, node):
         return types.Float(node.val)
@@ -101,10 +107,25 @@ class Evaluator:
         sys.stdout.write(val.get_literal() + ('\n' if node.println else ""))
 
     def v_CheckNode(self,node):
-        expr = self.visit(node.expr)
-        if expr.val == 1:
+        visit_else = True
+        if self.visit(node.expr).val == 1:
             for statement in node.block:
+                visit_else = False
                 self.visit(statement)
+        else:
+            for celse_stmt in node.celse_stmts:
+                if self.visit(celse_stmt.expr).val == 1:
+                    visit_else = False
+                    for statement in celse_stmt.block:
+                        visit_else = False
+                        self.visit(statement)
+        if visit_else and node.else_stmt != None:
+            for statement in node.else_stmt.block:
+                visit_else = False
+                self.visit(statement)
+        
+                 
+
     
     def v_WhileNode(self, node):
         while self.visit(node.expr).val == 1:

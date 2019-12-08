@@ -42,7 +42,8 @@ class Tokenizer:
         self.tokens = []
 
         self.keywords = [
-            "check","while",
+            "check", "celse",
+            "else", "while",
             "func","return",
             "continue","break",
             "true","false",
@@ -111,9 +112,9 @@ class Tokenizer:
     def scan(self, c):
         found = ""
         for index in range(self.i,len(self.source)):
-            found += self.source[index] if not self.source[index] == c else ""
+            found += self.source[index] if self.source[index] != c else ""
             if self.peek() == c: break
-            elif self.peek() == '\n' and not c == '\n': 
+            elif self.peek() == '\n' and c != '\n': 
                 raise LexerException(self.line,"Expected " + c + " character.")
             else: self.advance()
         self.advance()
