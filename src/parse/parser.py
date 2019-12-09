@@ -1,9 +1,9 @@
 from exceptions import ParserException
 import parse.tokenizer as tokenizer
+
 # Parser
 
 # Node types
-
 class NumNode:
     def __init__(self,val,line):
         self.val = val
@@ -210,6 +210,7 @@ class Parser:
         return PrintNode(expr,self.curtok.line, True if key == "println" else False)
 
     def else_stmt(self):
+        self.consume(tokenizer.KEY,"else")
         self.consume(tokenizer.B_BLCK,':')
         return ElseNode(self.block_stmt(),self.curtok.line)
 
@@ -228,9 +229,7 @@ class Parser:
             celse_stmts.append(self.ifelse_stmt())
             self.skip_nl()
         if self.curtok.literal == "else":
-                self.advance()
-                else_stmt = self.else_stmt()
-
+            else_stmt = self.else_stmt()
         return CheckNode(expr,block,celse_stmts,else_stmt,self.curtok.line)
 
     def while_stmt(self):
@@ -255,6 +254,7 @@ class Parser:
             if self.curtok.type != tokenizer.NL:
                 statements.append(self.statement())
             self.advance()
+        self.advance()
         return statements
     
     def program(self):

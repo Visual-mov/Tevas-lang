@@ -1,0 +1,24 @@
+~ Fizzbuzz
+~ 12/8/19
+
+
+100 -> n
+1 -> i
+while[i <= n]:
+    check[i % 3 = 0]:
+        check[i % 5 = 0]:
+            println "Fizzbuzz"
+        end
+        else:
+            println "Fizz"
+        end
+    end
+    celse[i % 5 = 0]:
+        println "Buzz"
+    end
+    else:
+        println i
+    end
+    println ""
+    i + 1 -> i
+end

@@ -20,7 +20,6 @@ def repl(argv):
         tokenizer = Tokenizer(source)
         tokens = tokenizer.lex()
         tokenizer.print_tokens()
-
         ast = Parser(tokens).parse()
         print(str(ast) + '\n')
         evaluator = eval.Evaluator(ast,gTable)

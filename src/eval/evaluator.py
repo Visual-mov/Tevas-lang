@@ -108,11 +108,12 @@ class Evaluator:
 
     def v_CheckNode(self,node):
         visit_else = True
-        if self.visit(node.expr).val == 1:
+        val = self.visit(node.expr)
+        if val.val == 1:
             for statement in node.block:
                 visit_else = False
                 self.visit(statement)
-        else:
+        elif val.val == 0 and node.celse_stmts != None:
             for celse_stmt in node.celse_stmts:
                 if self.visit(celse_stmt.expr).val == 1:
                     visit_else = False
@@ -121,17 +122,12 @@ class Evaluator:
                         self.visit(statement)
         if visit_else and node.else_stmt != None:
             for statement in node.else_stmt.block:
-                visit_else = False
                 self.visit(statement)
-        
-                 
 
-    
     def v_WhileNode(self, node):
         while self.visit(node.expr).val == 1:
             for statement in node.block:
                 self.visit(statement)
 
-        
     def v_Unknown(self, node): 
         raise RunTimeException(0,"Unknown node type.") #TODO Get line number via other method. Overhall method for transfering line number.

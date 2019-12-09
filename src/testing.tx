@@ -1,21 +1,22 @@
-10.5 -> myFloat
-!2.5 = 9 - 6.5 -> myBoolean
-"Hello World!" -> myString
 
-3 -> a
+1 -> a
+3 -> b
 
-check[a = 1]:
-    println "Test1"
+check[a = b]:
+    println "a is equal to b"
 end
 
-celse[a = 2]:
-    println "Test2"
+celse[a = b - 1]:
+    println "a is equal to b - 1"
 end
 
-celse[a = 3]:
-    println "Test3"
+
+celse[a - 1 = b]:
+    println "b is equal to a - 1"
 end
+
+
 
 else:
-    println "Else"
+    println "None of these are true!"
 end

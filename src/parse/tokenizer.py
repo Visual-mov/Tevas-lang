@@ -36,7 +36,6 @@ class Tokenizer:
         self.i = 0
         if len(source) > 0:
             self.curtok = source[self.i]
-
         self.source = source
         self.line = 1
         self.tokens = []
