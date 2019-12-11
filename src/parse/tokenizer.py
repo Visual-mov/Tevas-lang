@@ -43,8 +43,6 @@ class Tokenizer:
         self.keywords = [
             "check", "celse",
             "else", "while",
-            "func","return",
-            "continue","break",
             "true","false",
             "print", "println",
             "end"

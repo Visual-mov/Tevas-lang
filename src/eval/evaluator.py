@@ -109,20 +109,22 @@ class Evaluator:
     def v_CheckNode(self,node):
         visit_else = True
         val = self.visit(node.expr)
-        if val.val == 1:
-            for statement in node.block:
-                visit_else = False
-                self.visit(statement)
-        elif val.val == 0 and node.celse_stmts != None:
-            for celse_stmt in node.celse_stmts:
-                if self.visit(celse_stmt.expr).val == 1:
+        if self.check_type(val, types.Boolean):
+            if val.val == 1:
+                for statement in node.block:
                     visit_else = False
-                    for statement in celse_stmt.block:
+                    self.visit(statement)
+            elif val.val == 0 and node.celse_stmts != None:
+                for celse_stmt in node.celse_stmts:
+                    if self.visit(celse_stmt.expr).val == 1:
                         visit_else = False
-                        self.visit(statement)
-        if visit_else and node.else_stmt != None:
-            for statement in node.else_stmt.block:
-                self.visit(statement)
+                        for statement in celse_stmt.block:
+                            visit_else = False
+                            self.visit(statement)
+            if visit_else and node.else_stmt != None:
+                for statement in node.else_stmt.block:
+                    self.visit(statement)
+        else: raise RunTimeException(node.line,"Expression must be of type Boolean.")
 
     def v_WhileNode(self, node):
         while self.visit(node.expr).val == 1:
