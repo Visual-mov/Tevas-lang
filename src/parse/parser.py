@@ -153,7 +153,7 @@ class Parser:
         if tok.type == tokenizer.NUM:
             self.advance()
             return NumNode(tok.literal,self.curtok.line)
-        # TODO: Expand on this later to include function definitons and such
+        # TODO: Expand on this later to include function definitions and such
         elif tok.type == tokenizer.ID:
             self.advance()
             return VAccessNode(tok.literal,self.curtok.line)

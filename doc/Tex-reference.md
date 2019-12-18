@@ -1,5 +1,13 @@
 # The Tex Programming Language Reference
 
+## Comments
+Comments are signified in Tex with the tilde character, '~'. All tokens after the tilde on the same line will be ignored in both stages of parsing.
+
+```
+~ This is my program!
+println "Hello World"
+```
+
 ## Variables
 To declare a variable, use the store/assignment (->) operator. The expression on the left operand is the value to be stored, while the token on the right operand is the variable identifier.
 
@@ -93,8 +101,7 @@ Same functionality as *print* statement, but appends a new-line character at the
 print myString
 ```
 ```
-Output: Hello World!
-
+Output: Hello World!\n
 ```
 
 ## Expressions

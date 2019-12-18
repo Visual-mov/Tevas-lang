@@ -1,7 +1,3 @@
-
-2 -> a
-a - 4 -> b
-
-check[a >= b]:
-    println true
-end
+~ This is test!
+println "Hello World" ~ 123
+println "Hello tex"
