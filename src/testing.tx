@@ -1,3 +1,5 @@
-~ This is test!
-println "Hello World" ~ 123
-println "Hello tex"
+~ Comments
+println "Hello World" ~ This is a Test
+
+~ Another test!
+println "Tex" ~ 123

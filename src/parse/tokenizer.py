@@ -45,7 +45,8 @@ class Tokenizer:
             "else", "while",
             "true","false",
             "print", "println",
-            "end"
+            "end", "continue",
+            "break"
         ]
 
     def lex(self):
@@ -54,7 +55,6 @@ class Tokenizer:
             cp = self.peek()
             if c == '~':
                 self.scan("\n")
-                self.line += 1
             elif c == '\n':
                 self.tokens.append(Token(self.line,c,NL))
                 self.line += 1
@@ -62,6 +62,7 @@ class Tokenizer:
                 self.double_lexeme(c,cp,'>',OP,ASSIGN)
             elif c == "\"":
                 self.tokens.append(Token(self.line,self.scan(c),STR))
+                self.advance()
             elif c in ('>','<','!'): 
                 self.double_lexeme(c,cp,'=',L_OP)
             elif c == '=': 
@@ -111,10 +112,9 @@ class Tokenizer:
         for index in range(self.i,len(self.source)):
             found += self.source[index] if self.source[index] != c else ""
             if self.peek() == c: break
-            elif self.peek() == '\n' and c != '\n': 
-                raise LexerException(self.line,"Expected " + c + " character.")
+            elif self.source[index] == '\n' and c != '\n': 
+                raise LexerException(self.line,f"Expected '{c}' character.")
             else: self.advance()
-        self.advance()
         return found
 
     def scan_match(self, pat):
