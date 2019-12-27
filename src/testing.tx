@@ -1,5 +1,12 @@
-~ Comments
-println "Hello World" ~ This is a Test
+println true && false ~ returns false
+println 2 = 2 && 3 = 4-1 ~ returns true
+println 10 - 8 = 2 && true || 2 - 1 = 3 ~ returns true
 
-~ Another test!
-println "Tex" ~ 123
+println ""
+~ Order of execution
+println 4 % 2 = 0 || 7 / 2 > 4 && false && true
+      ~      true || 7 / 2 > 4 && false && true
+      ~      true || false && false && true
+      ~      true && false && true
+      ~      false && true
+~ returns:   false

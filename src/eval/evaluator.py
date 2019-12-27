@@ -3,6 +3,13 @@ import eval.types as types
 from exceptions import RunTimeException
 import parse.parser as parser
 
+# Evaluator
+
+# Context
+class Context:
+    def __init__(self, table):
+        self.table = table
+
 # Symbol Table
 class SymbolTable:
     def __init__(self, parent=None):
@@ -66,6 +73,11 @@ class Evaluator:
             return types.Boolean(1 if l.val >= r.val else 0)
         elif node.op == '!=':
             return types.Boolean(1 if l.val != r.val else 0)
+        
+        if node.op == "&&":
+            return types.Boolean(1 if l.val == 1 and r.val == 1 else 0)
+        if node.op == "||":
+            return types.Boolean(1 if l.val == 1 or r.val == 1 else 0)
 
         raise RunTimeException(node.line,"Can not apply arithmetical operations on " + type(l).__name__ + " and " + type(r).__name__)
 

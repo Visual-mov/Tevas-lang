@@ -107,6 +107,7 @@ Output: Hello World!\n
 ```
 
 ## Expressions
+There exists two types of expressions in Tex, logical and arithmetical.
 
 ### *Binary Operators*
 
@@ -118,6 +119,8 @@ Output: Hello World!\n
 > : Greater than.
 <= : Less than or equal to.
 >= : Greater than or equal to.
+&& : Logical AND
+|| : Logical OR
 ```
 #### Arithmetical Operators
 ```

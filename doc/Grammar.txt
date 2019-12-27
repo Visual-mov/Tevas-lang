@@ -28,9 +28,11 @@ else_stmt := {else} ':' '\n' block_stmt '\n'
 
 while_stmt := {while} '[' l_expr ']' ':' '\n' block_stmt '\n'
 
-assignment := l_expr '->' IDENTIFIER
+assignment := cmpnd_expr '->' IDENTIFIER
 
-l_expr := a_expr (('=' | '<=' | '>=' | '>' | '<' | '!=' | '&&' | '||') a_expr)*
+cmpnd_expr := l_expr (('&&' | '||') l_expr)*
+
+l_expr := a_expr (('=' | '<=' | '>=' | '>' | '<' | '!=') a_expr)*
         | '!' l_expr
 
 a_expr := term ((+ | -) term)*

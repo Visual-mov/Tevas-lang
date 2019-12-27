@@ -138,7 +138,7 @@ class Parser:
     def cond_stmt(self,key):
         self.consume(tokenizer.KEY,key)
         self.consume(tokenizer.L_BRACKET,'[')
-        expr = self.l_expr()
+        expr = self.cmpnd_expr()
         self.consume(tokenizer.R_BRACKET,']')
         self.consume(tokenizer.B_BLCK,':')
         return expr
@@ -193,8 +193,11 @@ class Parser:
         else:
             return self.bin_op(self.a_expr,("=","!=","<=",">=","<",">"))
 
+    def cmpnd_expr(self):
+        return self.bin_op(self.l_expr,("&&","||"))
+
     def assignment(self):
-        expr = self.l_expr()
+        expr = self.cmpnd_expr()
         if self.curtok.type == tokenizer.ASSIGN:
             self.advance()
             id = self.factor()
@@ -206,7 +209,7 @@ class Parser:
 
     def print_stmt(self, key):
         self.advance()
-        expr = self.l_expr()
+        expr = self.cmpnd_expr()
         return PrintNode(expr,self.curtok.line, True if key == "println" else False)
 
     def else_stmt(self):

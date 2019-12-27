@@ -67,6 +67,10 @@ class Tokenizer:
                 self.double_lexeme(c,cp,'=',L_OP)
             elif c == '=': 
                 self.tokens.append(Token(self.line,c,L_OP))
+            elif c == '&' and self.peek() == '&':
+                self.tokens.append(Token(self.line,"&&",L_OP))
+            elif c == '|' and self.peek() == '|':
+                self.tokens.append(Token(self.line,"||",L_OP))
             elif c == ':':
                 self.tokens.append(Token(self.line,c,B_BLCK))
             elif self.m("[][]",c):

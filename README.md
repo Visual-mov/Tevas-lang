@@ -28,7 +28,7 @@ Tex programs are files with the '.tx' extension.
 I'm open to contributions, however the changes should be run on your local machine first. There are no tests to run, as I feel this project is not in a place to require them.
 
 ## Project Status
-At this time, Tex is still in active development. I'm planning on continuing its development until 2020 or so.
+At this time, Tex is still in active development. I'm planning on continuing its development intermittently until February 2020 or so.
 
 ## Licence
 The MIT License (MIT)

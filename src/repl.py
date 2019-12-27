@@ -1,5 +1,4 @@
-import re
-import sys
+import re, sys
 from parse.parser import Parser
 from parse.tokenizer import Tokenizer
 import eval.evaluator as eval
