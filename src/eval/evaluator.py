@@ -61,6 +61,7 @@ class Evaluator:
                 return types.Float(l.multiply(r))
             elif node.op == '%':
                 return types.Float(l.modulo(r))
+                
         if node.op == '=':
             return types.Boolean(1 if l.val == r.val else 0)
         elif node.op == '<':
@@ -75,9 +76,9 @@ class Evaluator:
             return types.Boolean(1 if l.val != r.val else 0)
         
         if node.op == "&&":
-            return types.Boolean(1 if l.val == 1 and r.val == 1 else 0)
+            return l.And(r)
         if node.op == "||":
-            return types.Boolean(1 if l.val == 1 or r.val == 1 else 0)
+            return l.Or(r)
 
         raise RunTimeException(node.line,"Can not apply arithmetical operations on " + type(l).__name__ + " and " + type(r).__name__)
 
