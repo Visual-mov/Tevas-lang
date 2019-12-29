@@ -3,7 +3,7 @@ from parse.parser import Parser
 from parse.tokenizer import Tokenizer
 import eval.evaluator as eval
 
-# The Tex Programming Language v1.0
+# The Tex Programming Language
 # www.github.com/Visual-mov/Tex-lang
 #
 # Copywrite(c) Ryan Danver 2019

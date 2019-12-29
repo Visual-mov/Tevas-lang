@@ -15,7 +15,6 @@ To declare a variable, use the store/assignment (->) operator. The expression on
 
 ```
 2 * (2 + 2) -> a
-myFunc(a) -> b
 (8.6 * 10.44) / 65 + myFunc(a) -> c
 true -> d
 ```
@@ -52,6 +51,9 @@ The given expression must evaluate to either true, or false. Expressions that ev
 check[expr]:
   ...statements
 end
+celse[expr]:
+  ...statements
+end
 else:
   ...statements
 end
@@ -59,6 +61,12 @@ end
 ```
 check[a = b]:
   println "a is equal to b!"
+end
+celse[a > b]:
+  println "a is larger than b!"
+end
+celse[a < b]:
+  println "a is less than b!"
 end
 else:
   println "Hold on, a is not equal to b!"
