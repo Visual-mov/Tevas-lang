@@ -1,0 +1,42 @@
+~ Mandelbrot Set Renderer :)
+~ Use this to test all parts of the language after making a change and before committing.
+~ 12/29/19
+
+10 -> scale
+10 -> maxIter
+
+0 -> x
+0 -> y
+while[y <= scale]:
+    while[x <= scale*2]:
+        -3 + (x / (scale*2) * 5) -> za
+        -3 + (y / scale * 5) -> zb
+        za -> inita
+        zb -> initb
+        0 -> i
+
+        true -> run
+        while[i < maxIter && run]:
+            2 * za * zb -> tmp
+            (za * za - zb * zb) + inita -> za
+            tmp + initb -> zb
+            check[za * za + zb * zb > 4]:
+                false -> run
+            end
+            i + 1 -> i
+        end
+        check[i = maxIter]:
+            print "#"
+        end
+        celse[i = 12]:
+            print "2"
+        end
+        else:
+            print "."
+        end
+        x + 1 -> x
+    end
+    println ""
+    0 -> x
+    y + 1 -> y
+end

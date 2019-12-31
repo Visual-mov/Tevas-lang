@@ -1,24 +1,22 @@
 ~ Fizzbuzz
 ~ 12/8/19
 
-
-100 -> n
+50 -> n
 1 -> i
 while[i <= n]:
-    check[i % 3 = 0]:
-        check[i % 5 = 0]:
-            println "Fizzbuzz"
-        end
-        else:
-            println "Fizz"
-        end
-    end
-    celse[i % 5 = 0]:
-        println "Buzz"
+    check[i % 3 = 0 && i % 5 = 0]:
+        println "Fizzbuzz!"
     end
     else:
-        println i
+        check[i % 5 = 0]:
+            println "Buzz"
+        end
+        celse[i % 3 = 0]:
+            println "Fizz"
+        end
+        else:
+            println i
+        end
     end
-    println ""
     i + 1 -> i
 end
