@@ -27,6 +27,7 @@ def repl(argv):
     else:
         print("Tex Language REPL v1.0")
         while run:
+            # Fix line issue
             eval.Evaluator(Parser(Tokenizer(input(">> ") + "\n").lex()).parse(),gTable).eval()
 
 if __name__ == "__main__":

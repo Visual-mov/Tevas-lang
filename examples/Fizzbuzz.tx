@@ -6,15 +6,12 @@
 while[i <= n]:
     check[i % 3 = 0 && i % 5 = 0]:
         println "Fizzbuzz!"
-    end
-    else:
+    end else:
         check[i % 5 = 0]:
             println "Buzz"
-        end
-        celse[i % 3 = 0]:
+        end celse[i % 3 = 0]:
             println "Fizz"
-        end
-        else:
+        end else:
             println i
         end
     end

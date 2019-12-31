@@ -5,7 +5,6 @@ from exceptions import LexerException
 
 # Types
 EOF = "EOF"
-NL = "NEWLINE"
 
 L_OP = "LOGICAL_OPERATOR"
 L_PAREN = "LEFT_PARENTHESIS"
@@ -56,7 +55,6 @@ class Tokenizer:
             if c == '~':
                 self.scan("\n")
             elif c == '\n':
-                self.tokens.append(Token(self.line,c,NL))
                 self.line += 1
             elif c == '-':
                 self.double_lexeme(c,cp,'>',OP,ASSIGN)

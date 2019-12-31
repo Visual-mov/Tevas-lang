@@ -24,14 +24,12 @@ while[y <= scale]:
                 false -> run
             end
             i + 1 -> i
-        end
+        end 
         check[i = maxIter]:
             print "#"
-        end
-        celse[i = 12]:
+        end celse[i = 12]:
             print "2"
-        end
-        else:
+        end else:
             print "."
         end
         x + 1 -> x

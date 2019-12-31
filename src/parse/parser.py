@@ -126,10 +126,6 @@ class Parser:
             self.advance()
             return True
         else: raise ParserException(self.curtok.line,literal,"ex")
-    
-    def peek(self):
-        i = self.index + 1
-        return self.tokens[i] if i < len(self.tokens) else None
 
     def bin_op(self,func,ops):
         l = func()
@@ -139,9 +135,6 @@ class Parser:
             r = func()
             l = BinaryOpNode(l,op,r,self.curtok.line)
         return l
-
-    def skip_nl(self):
-        while self.peek().type == tokenizer.NL: self.advance()
 
     def cond_stmt(self,key):
         self.consume(tokenizer.KEY,key)
@@ -231,13 +224,9 @@ class Parser:
         block = self.block_stmt()
         celse_stmts = []
         else_stmt = None
-        self.skip_nl()
-        while self.peek().literal == "celse":
-            self.advance()
+        while self.curtok.literal == "celse":
             celse_stmts.append(self.ifelse_stmt())
-            self.skip_nl()
-        if self.peek().literal == "else":
-            self.advance()
+        if self.curtok.literal == "else":
             else_stmt = self.else_stmt()
         return CheckNode(expr,block,celse_stmts,else_stmt,self.curtok.line)
 
@@ -251,7 +240,6 @@ class Parser:
         if val == "print" or val == "println": return self.print_stmt(val)
         elif val == "check": return self.if_stmt()
         elif val == "while": return self.while_stmt()
-        elif val in ('\n', '\r\n'): self.advance()
         else: return self.assignment()
 
     def block_stmt(self):
@@ -259,16 +247,12 @@ class Parser:
         while self.curtok.literal != "end":
             if self.curtok.type == tokenizer.EOF:
                 raise ParserException(self.curtok.line,"end","ex")
-            if self.curtok.type != tokenizer.NL:
-                statements.append(self.statement())
-            self.advance()
+            statements.append(self.statement())
         self.advance()
         return statements
     
     def program(self):
         statements = []
         while self.curtok.type != tokenizer.EOF:
-            if self.curtok.type != tokenizer.NL:
-                statements.append(self.statement())
-            self.advance()
+            statements.append(self.statement())
         return statements
