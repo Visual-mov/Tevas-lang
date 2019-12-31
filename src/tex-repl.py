@@ -24,19 +24,10 @@ def repl(argv):
         
         evaluator = eval.Evaluator(ast,gTable)
         evaluator.eval()
-        #eval.Evaluator(Parser(Tokenizer(source,line).lex()).parse(),gTable).eval()
     else:
         print("Tex Language REPL v1.0")
         while run:
-            
-            # Create the list of tokens.
-            tokens = Tokenizer(input(">> ") + "\n").lex()
-
-            # Create the AST
-            ast = Parser(tokens).parse()
-
-            # Execute the AST.
-            eval.Evaluator(ast,gTable).eval()
+            eval.Evaluator(Parser(Tokenizer(input(">> ") + "\n").lex()).parse(),gTable).eval()
 
 if __name__ == "__main__":
     repl(sys.argv)

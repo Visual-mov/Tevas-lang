@@ -68,7 +68,8 @@ class CheckNode:
         self.else_stmt = else_stmt
         self.line = line
     def __repr__(self):
-        return f'CHECK[{self.expr}]:\n {self.block}\n {self.celse_stmts}\n {self.else_stmt}'
+        str_else = self.else_stmt if self.else_stmt != None else ""
+        return f'CHECK[{self.expr}]:\n {self.block}\n {self.celse_stmts}\n {str_else}'
 
 class CelseNode:
     def __init__(self, expr, block, line):
@@ -126,6 +127,10 @@ class Parser:
             return True
         else: raise ParserException(self.curtok.line,literal,"ex")
     
+    def peek(self):
+        i = self.index + 1
+        return self.tokens[i] if i < len(self.tokens) else None
+
     def bin_op(self,func,ops):
         l = func()
         while self.curtok.literal in ops and not self.curtok.literal == "":
@@ -135,6 +140,9 @@ class Parser:
             l = BinaryOpNode(l,op,r,self.curtok.line)
         return l
 
+    def skip_nl(self):
+        while self.peek().type == tokenizer.NL: self.advance()
+
     def cond_stmt(self,key):
         self.consume(tokenizer.KEY,key)
         self.consume(tokenizer.L_BRACKET,'[')
@@ -142,10 +150,6 @@ class Parser:
         self.consume(tokenizer.R_BRACKET,']')
         self.consume(tokenizer.B_BLCK,':')
         return expr
-
-    def skip_nl(self):
-        self.advance()
-        while self.curtok.type == tokenizer.NL: self.advance()
 
     # Productions
     def factor(self):
@@ -228,10 +232,12 @@ class Parser:
         celse_stmts = []
         else_stmt = None
         self.skip_nl()
-        while self.curtok.literal == "celse":
+        while self.peek().literal == "celse":
+            self.advance()
             celse_stmts.append(self.ifelse_stmt())
             self.skip_nl()
-        if self.curtok.literal == "else":
+        if self.peek().literal == "else":
+            self.advance()
             else_stmt = self.else_stmt()
         return CheckNode(expr,block,celse_stmts,else_stmt,self.curtok.line)
 
@@ -247,7 +253,6 @@ class Parser:
         elif val == "while": return self.while_stmt()
         elif val in ('\n', '\r\n'): self.advance()
         else: return self.assignment()
-
 
     def block_stmt(self):
         statements = []
