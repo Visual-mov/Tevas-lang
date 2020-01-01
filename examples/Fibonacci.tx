@@ -1,0 +1,15 @@
+~ Fibonacci Sequence Generator
+~ 12/31/19
+
+15 -> n
+
+1 -> i
+0 -> a
+1 -> b
+while[i <= n]:
+    a + b -> t
+    b -> a
+    t -> b
+    println a
+    i + 1 -> i
+end
