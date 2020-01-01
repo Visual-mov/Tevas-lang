@@ -1,0 +1,16 @@
+~ Collatz Conjecture
+~ 12/31/19
+
+~ Any random positive integer:
+31415926 -> n
+
+while[n != 1]:
+    check[n % 2 = 0]:
+        n / 2 -> n
+    end else:
+        n * 3 + 1 -> n
+    end
+    print "n = "
+    println n
+end
+println "Finished!"
