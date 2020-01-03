@@ -6,9 +6,11 @@ import parse.parser as parser
 # Evaluator
 
 # Context
-class Context:
-    def __init__(self, table):
-        self.table = table
+class Scope:
+    def __init__(self, name, parent=None):
+        self.name = name
+        self.parent = parent
+        self.table = SymbolTable(parent)
 
 # Symbol Table
 class SymbolTable:
@@ -29,9 +31,9 @@ class SymbolTable:
         del list[key] 
         
 class Evaluator:
-    def __init__(self,tree,gTable):
+    def __init__(self,tree,gScope):
         self.tree = tree
-        self.gTable = gTable
+        self.gScope = gScope
     
     def eval(self):
         for node in self.tree:
@@ -106,11 +108,11 @@ class Evaluator:
 
     def v_VAssignmentNode(self, node):
         val = self.visit(node.expr)
-        self.gTable.put(node.id,val)
+        self.gScope.table.put(node.id,val)
         return val
 
     def v_VAccessNode(self, node):
-        var = self.gTable.lookup(node.id)
+        var = self.gScope.table.lookup(node.id)
         if var == None:
             raise RunTimeException(node.line,f'"{node.id}" is not defined.')
         return var

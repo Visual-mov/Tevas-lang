@@ -2,8 +2,9 @@
 ~ 12/31/19
 
 ~ Any random positive integer:
-31415926 -> n
+2047140987 -> n
 
+1 -> i
 while[n != 1]:
     check[n % 2 = 0]:
         n / 2 -> n
@@ -12,5 +13,8 @@ while[n != 1]:
     end
     print "n = "
     println n
+    i + 1 -> i
 end
-println "Finished!"
+print "Finished! It took "
+print i
+println " iterations." 

@@ -1,5 +1,28 @@
 # The Tex Programming Language Reference
 
+## Syntax
+Tex is a dynamically typed language. A variable's type does not need to be declared in assignment. All the type checking is done in runtime. Tex is not sensitive to indention (spaces and tabs). The language ignores line breaks. Line breaks are not lexed, meaning Tex has no concept of them within the parser. Based on all of this, each one of these strings is a valid Tex program.
+
+` 2 -> a 2 -> b println a * b`
+
+```
+           1 -> i 
+       while[i 
+             <= 10]:
+println i         i + 1 -> i
+            end
+```
+Expressions can even be defined on multiple lines.
+```
+false
+||
+true &&
+
+true
+->
+myVar
+```
+
 ## Comments
 Comments are signified in Tex with the tilde character, '~'. All tokens after the tilde on the same line will be ignored.
 ```
@@ -7,9 +30,9 @@ Comments are signified in Tex with the tilde character, '~'. All tokens after th
 println "Hello World"
 ```
 Comments can also come after tokens on the same line.
-```
-2 + 2 -> a  ~ Sets a equal to 4.
-```
+
+`2 + 2 -> a  ~ Sets a equal to 4.`
+
 ## Variables
 To declare a variable, use the store/assignment (->) operator. The expression on the left operand is the value to be stored, while the token on the right operand is the variable identifier.
 
@@ -98,9 +121,8 @@ Prints a given Float, Boolean, or String using stdout.
 "Hello World!" -> myString
 print myString
 ```
-```
-Output: Hello World!
-```
+
+`Output: Hello World!`
 
 
 ### *Println*

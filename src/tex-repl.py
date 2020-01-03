@@ -10,7 +10,7 @@ import eval.evaluator as eval
 
 def repl(argv):
     run = True
-    gTable = eval.SymbolTable()
+    gScope = eval.Scope("Global")
 
     if len(argv)-1 > 1 and argv[1] == "--file":
         source = open(argv[2],'r').read()
@@ -22,7 +22,7 @@ def repl(argv):
         ast = Parser(tokens).parse()
         print(str(ast) + '\n')
         
-        evaluator = eval.Evaluator(ast,gTable)
+        evaluator = eval.Evaluator(ast,gScope)
         evaluator.eval()
     else:
         print("Tex Language REPL v1.0")
