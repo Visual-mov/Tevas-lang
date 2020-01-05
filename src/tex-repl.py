@@ -28,7 +28,7 @@ def repl(argv):
         print("Tex Language REPL v1.0")
         while run:
             # Fix line issue
-            eval.Evaluator(Parser(Tokenizer(input(">> ") + "\n").lex()).parse(),gTable).eval()
+            eval.Evaluator(Parser(Tokenizer(input(">> ") + "\n").lex()).parse(),gScope).eval()
 
 if __name__ == "__main__":
     repl(sys.argv)

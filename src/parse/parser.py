@@ -149,24 +149,21 @@ class Parser:
         tok = self.curtok
         if tok.type == tokenizer.NUM:
             self.advance()
-            return NumNode(tok.literal,self.curtok.line)
-        # TODO: Expand on this later to include function definitions and such
+            return NumNode(tok.literal,tok.line)
         elif tok.type == tokenizer.ID:
             self.advance()
-            return VAccessNode(tok.literal,self.curtok.line)
+            return VAccessNode(tok.literal,tok.line)
         elif tok.type == tokenizer.EOF:
             raise ParserException(self.curtok,"EOF","unex")
         elif tok.literal == "true" or tok.literal == "false":
             self.advance()
-            return BooleanNode(1 if tok.literal == "true" else 0, self.curtok.line)
+            return BooleanNode(1 if tok.literal == "true" else 0, tok.line)
         elif tok.type == tokenizer.STR:
-            str = self.curtok.literal
             self.advance()
-            return StringNode(str,self.curtok.line)
+            return StringNode(tok.literal,tok.line)
         elif tok.literal in ("+", "-"):
-            op = tok.literal
             self.advance()
-            return UnaryOpNode(op,self.factor(),self.curtok.line)
+            return UnaryOpNode(tok.literal,self.factor(),tok.line)
         elif tok.literal == '(':
             self.advance()
             expr = self.a_expr()
@@ -237,10 +234,14 @@ class Parser:
 
     def statement(self):
         val = self.curtok.literal
-        if val == "print" or val == "println": return self.print_stmt(val)
-        elif val == "check": return self.if_stmt()
-        elif val == "while": return self.while_stmt()
-        else: return self.assignment()
+        if val == "print" or val == "println":
+            return self.print_stmt(val)
+        elif val == "check":
+            return self.if_stmt()
+        elif val == "while":
+            return self.while_stmt()
+        else:
+            return self.assignment()
 
     def block_stmt(self):
         statements = []
