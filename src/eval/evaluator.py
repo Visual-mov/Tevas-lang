@@ -31,9 +31,10 @@ class SymbolTable:
         del list[key] 
         
 class Evaluator:
-    def __init__(self,tree,gScope):
+    def __init__(self,tree,g_scope):
         self.tree = tree
-        self.gScope = gScope
+        self.scope_stack = []
+        self.scope_stack.append(g_scope)
     
     def eval(self):
         for node in self.tree:
@@ -45,6 +46,10 @@ class Evaluator:
     def check_type(self,l,r,type=None):
         if type == None: return isinstance(l,r)
         else: return isinstance(l,type) and isinstance(r,type)
+
+    def add_scope(self, scope):
+        scope.parent = self.scope_stack[len(self.scope_stack) - 1]
+        self.scope_stack.append(scope)
     
     def v_BinaryOpNode(self, node):
         r = self.visit(node.right)
@@ -108,11 +113,11 @@ class Evaluator:
 
     def v_VAssignmentNode(self, node):
         val = self.visit(node.expr)
-        self.gScope.table.put(node.id,val)
+        self.scope_stack[0].table.put(node.id,val)
         return val
 
     def v_VAccessNode(self, node):
-        var = self.gScope.table.lookup(node.id)
+        var = self.scope_stack[0].table.lookup(node.id)
         if var == None:
             raise RunTimeException(node.line,f'"{node.id}" is not defined.')
         return var
