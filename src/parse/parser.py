@@ -25,7 +25,6 @@ class BooleanNode:
     def __repr__(self):
         return f'{"true" if self.val == 1 else "false"}'
 
-
 class BinaryOpNode:
     def __init__(self,left,op,right,line):
         self.left = left
@@ -43,7 +42,6 @@ class UnaryOpNode:
     def __repr__(self):
         return f'{self.op}{self.node}'
 
-
 class VAssignmentNode:
     def __init__(self,expr,id,line):
         self.expr = expr
@@ -58,7 +56,6 @@ class VAccessNode:
         self.line = line
     def __repr__(self):
         return f'[{self.id}]'
-
 
 class CheckNode:
     def __init__(self, expr, block, celse_stmts, else_stmt, line):
@@ -101,8 +98,17 @@ class PrintNode:
         self.println = println
     def __repr__(self):
         return f'PRINT{"LN" if self.println else ""}[{self.expr}]\n'
-        
 
+class FlowNode:
+    def __init__(self, key, line):
+        self.key = key
+        self.line = line
+    def __repr__(self):
+        if self.key == "continue":
+            return "CONTINUE"
+        elif self.key == "break":
+            return "BREAK"
+        
 class Parser:
     def __init__(self, tokens):
         self.tokens = tokens
@@ -240,6 +246,10 @@ class Parser:
             return self.if_stmt()
         elif val == "while":
             return self.while_stmt()
+        elif val in ("continue","break"):
+            line = self.curtok.line
+            self.advance()
+            return FlowNode(val,line)
         else:
             return self.assignment()
 

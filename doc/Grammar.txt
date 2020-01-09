@@ -16,6 +16,7 @@ statement := assignment
            | print_stmt
            | if_stmt
            | while_stmt
+           | {continue} | {break}
 
 print_stmt := {print} l_expr
             | {println} l_expr
@@ -26,7 +27,7 @@ ifelse_stmt := {celse} '[' l_expr ']' ':' block_stmt
 
 else_stmt := {else} ':'  block_stmt 
 
-while_stmt := {while} '[' l_expr ']' ':' block_stmt 
+while_stmt := {while} '[' l_expr ']' ':' block_stmt
 
 assignment := cmpnd_expr '->' IDENTIFIER
 

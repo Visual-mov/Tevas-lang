@@ -1,12 +1,6 @@
-println true && false ~ returns false
-println 2 = 2 && 3 = 4-1 ~ returns true
-println 10 - 8 = 2 && true || 2 - 1 = 3 ~ returns true
-
-println ""
-~ Order of execution
-println 4 % 2 = 0 || 7 / 2 > 4 && false && true
-      ~      true || 7 / 2 > 4 && false && true
-      ~      true || false && false && true
-      ~      true && false && true
-      ~      false && true
-~ returns:   false
+0 -> i
+while[i <= 20]:
+      println i
+      check[i = 15]: break end
+      i + 1 -> i
+end

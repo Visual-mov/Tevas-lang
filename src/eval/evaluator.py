@@ -121,6 +121,9 @@ class Evaluator:
         val = self.visit(node.expr)
         sys.stdout.write(val.get_literal() + ('\n' if node.println else ""))
 
+    def v_FlowNode(self, node):
+        print(node)
+
     def v_CheckNode(self,node):
         visit_else = True
         val = self.visit(node.expr)
