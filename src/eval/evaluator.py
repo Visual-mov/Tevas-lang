@@ -7,7 +7,7 @@ import parse.parser as parser
 
 # Context
 class Scope:
-    def __init__(self, name, parent=None):
+    def __init__(self, name="", parent=None):
         self.name = name
         self.parent = parent
         self.table = SymbolTable(parent)
@@ -35,6 +35,8 @@ class Evaluator:
         self.tree = tree
         self.scope_stack = []
         self.scope_stack.append(g_scope)
+        self.do_break = False
+        self.do_continue = False
     
     def eval(self):
         for node in self.tree:
@@ -54,6 +56,21 @@ class Evaluator:
     def v_BinaryOpNode(self, node):
         r = self.visit(node.right)
         l = self.visit(node.left)
+
+        # value = {
+        #     "+": types.Float(l.add(r)),
+        #     "-": types.Float(l.minus(r)),
+        #     "*": types.Float(l.multiply(r)),
+        #     "/": types.Float(l.divide(r)),
+        #     "%": types.Float(l.modulo(r)),
+
+        #     "=": types.Boolean(1 if l.val == r.val else 0),
+        #     "<": types.Boolean(1 if l.val < r.val else 0),
+        #     "<=": types.Boolean(1 if l.val <= r.val else 0),
+        #     ">": types.Boolean(1 if l.val > r.val else 0),
+        #     ">=": types.Boolean(1 if l.val >= r.val else 0),
+        #     "!=": types.Boolean(1 if l.val != r.val else 0),
+        # }
 
         if self.check_type(l,r,types.Float):
             if node.op == '+':
@@ -91,7 +108,6 @@ class Evaluator:
 
     def v_UnaryOpNode(self, node):
         val = self.visit(node.node)
-
         if self.check_type(val,types.Float):
             if node.op == '-':
                 return types.Float(val.val).negate()
@@ -127,7 +143,10 @@ class Evaluator:
         sys.stdout.write(val.get_literal() + ('\n' if node.println else ""))
 
     def v_FlowNode(self, node):
-        print(node)
+        if node.key == "break":
+            self.do_break = True
+        elif node.key == "continue":
+            self.do_continue = True
 
     def v_CheckNode(self,node):
         visit_else = True
@@ -136,23 +155,29 @@ class Evaluator:
             if val.val == 1:
                 for statement in node.block:
                     visit_else = False
-                    self.visit(statement)
+                    if True not in (self.do_break, self.do_continue): self.visit(statement)
             elif val.val == 0 and node.celse_stmts != None:
                 for celse_stmt in node.celse_stmts:
                     if self.visit(celse_stmt.expr).val == 1:
                         visit_else = False
                         for statement in celse_stmt.block:
                             visit_else = False
-                            self.visit(statement)
+                            if True not in (self.do_break, self.do_continue): self.visit(statement)
             if visit_else and node.else_stmt != None:
                 for statement in node.else_stmt.block:
-                    self.visit(statement)
+                    if True not in (self.do_break, self.do_continue): self.visit(statement)
         else: raise RunTimeException(node.line,"Expression must be of type Boolean.")
 
     def v_WhileNode(self, node):
-        while self.visit(node.expr).val == 1:
+        while self.visit(node.expr).val == 1 and not self.do_break:
             for statement in node.block:
+                if self.do_continue or self.do_break: break
                 self.visit(statement)
+            if self.do_continue:
+                self.do_continue = False
+                continue
+        self.do_break = False
+        self.do_continue = False
 
     def v_Unknown(self, node): 
-        raise RunTimeException(0,"Unknown node type.") #TODO Get line number via other method. Overhall method for transfering line number.
+        raise RunTimeException(0,"Unknown node type.")
