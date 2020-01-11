@@ -14,15 +14,12 @@ while[y <= scale]:
         za -> inita
         zb -> initb
         0 -> i
-
-        true -> run
-        while[i < maxIter && run]:
+        
+        while[i < maxIter]:
             2 * za * zb -> tmp
             (za * za - zb * zb) + inita -> za
             tmp + initb -> zb
-            check[za * za + zb * zb > 4]:
-                false -> run
-            end
+            check[za * za + zb * zb > 4]: break end
             i + 1 -> i
         end 
         check[i = maxIter]:
