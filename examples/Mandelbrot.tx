@@ -2,8 +2,8 @@
 ~ Was my "end goal" for whatever language I created.
 ~ 12/29/19
 
-10 -> scale
-10 -> maxIter
+30 -> scale
+100 -> maxIter
 
 0 -> x
 0 -> y
@@ -24,6 +24,8 @@ while[y <= scale]:
         end 
         check[i = maxIter]:
             print "#"
+        end celse[i < maxIter && i > maxIter/10]:
+            print "*"
         end else:
             print "."
         end

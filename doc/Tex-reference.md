@@ -1,7 +1,7 @@
 # The Tex Programming Language Reference
 
 ## Syntax
-Tex is a dynamically typed language. A variable's type does not need to be declared in assignment. All the type checking is done in runtime. Tex is not sensitive to indention (spaces and tabs). The language ignores line breaks. Line breaks are not lexed, meaning Tex has no concept of them within the parser. Based on all of this, each one of these strings is a valid Tex program.
+Tex is a dynamically typed language. A variable's type does not need to be declared in assignment. All the type checking is done in runtime. Tex is not sensitive to indention (spaces and tabs), and line breaks. Line breaks are not tokenized, meaning Tex has no concept of them within the parser. This makes the syntax very "loose" feeling, meaning each one of these strings is a valid Tex program.
 
 ` 2 -> a 2 -> b println a * b`
 
@@ -112,6 +112,51 @@ while[i < 10]:
   i + 1 -> i
 end
 ```
+
+*continue* and *break* statements allow you to control a loop's execution. The *break* keyword allows you to break out of the given loop, and continue execution. While the *continue* keyword returns the execution to the beginning of the loop, as well as re-evaluating the exit condition given.
+
+#### Break
+
+```
+0 -> i
+while[i < 5]:
+  println i
+  check[i = 3]: break end
+  i + 1 -> i
+end
+```
+
+```
+Expected output:
+0.0
+1.0
+2.0
+3.0
+```
+
+#### Continue
+
+```
+0 -> i
+while[i < 5]:
+  println i
+  check[i = 3]: continue end
+  i + 1 -> i
+end
+```
+
+```
+Expected output:
+0.0
+1.0
+2.0
+3.0
+3.0
+3.0
+3.0
+...
+```
+
 ## Other Statements
 
 ### *Print*
@@ -132,9 +177,8 @@ Same functionality as *print* statement, but appends a new-line character at the
 "Hello World!" -> myString
 print myString
 ```
-```
-Output: Hello World!\n
-```
+
+`Output: Hello World!\n`
 
 ## Expressions
 There exists two types of expressions in Tex, logical and arithmetical.
@@ -170,6 +214,8 @@ There exists two types of expressions in Tex, logical and arithmetical.
 
 ## Keywords
 - *while* - While loop control structure
+- *continue* - Continue statement
+- *break* - Break statement
 - *check* - If/else control structure
 - *celse* - Optional of else-if block following if.
 - *else* - Optional else block following if.

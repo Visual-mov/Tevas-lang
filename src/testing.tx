@@ -1,16 +1,6 @@
-
-0 -> x
-0 -> y
-while[x <= 20]:
-      while[y <= 20]:
-            print x
-            print " : "
-            println y
-
-            check[y = 20]: break end
-
-            y + 1 -> y
-      end
-      x + 1 -> x
-      0 -> y
+0 -> i
+while[i < 5]:
+  println i
+  check[i = 3]: continue end
+  i + 1 -> i
 end
