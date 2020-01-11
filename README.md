@@ -24,9 +24,9 @@ You can also run a Tex program in the form of a file. Specify the location of th
 Tex programs are files with the '.tx' extension.
 
 ## TODO
-- Implementing context system
-- Adding 'continue' and 'break' keywords
-- Fix exception edge-cases.
+- Implementing context system ✔️
+- Adding 'continue' and 'break' keywords ✔️
+- Fix all common exception edge-cases.
 - Add user-defined functions.
 - Add built-in functions for math, and input.
 
