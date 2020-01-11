@@ -24,11 +24,13 @@ You can also run a Tex program in the form of a file. Specify the location of th
 Tex programs are files with the '.tx' extension.
 
 ## TODO
-- Implementing context system ✔️
-- Adding 'continue' and 'break' keywords ✔️
+- Implement context system ✔️
+- Add 'continue' and 'break' keywords ✔️
 - Fix all common exception edge-cases.
+- Fix line number for "Expected 'end' token" exception.
 - Add user-defined functions.
 - Add built-in functions for math, and input.
+- Allow multiple strings to be added together.
 
 ## Project Status
 At this time, Tex is still in active development. I'm planning on continuing its development intermittently until February 2020 or so.

@@ -6,9 +6,9 @@ Tex is a dynamically typed language. A variable's type does not need to be decla
 ` 2 -> a 2 -> b println a * b`
 
 ```
-           1 -> i 
+           0 -> i 
        while[i 
-             <= 10]:
+             < 10]:
 println i         i + 1 -> i
             end
 ```

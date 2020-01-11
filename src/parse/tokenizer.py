@@ -96,10 +96,8 @@ class Tokenizer:
         return Token(self.line, result, ID) if result not in self.keywords else Token(self.line,result,KEY)
     
     def get_digit(self):
-        #TODO Improve regex for scanning floats.
         return float(self.scan_match("[0-9.]"))
 
-    #TODO: Change these parameter names to better reflect their purpose.
     def double_lexeme(self, c, cp, expected_seek, type1, type2=L_OP):
         if cp != expected_seek:
             self.tokens.append(Token(self.line,c,type1))

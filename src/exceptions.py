@@ -2,7 +2,7 @@ class TexException:
     def __init__(self,line, errtype, message):
         self.line = line
         self.message = message
-        print(u"\u001b[31m" + f'Line {line}: {errtype}.\n  {message}' + u"\u001b[0m")
+        print(u"\u001b[31m" + f'Line {line}: {errtype}.\n > {message}' + u"\u001b[0m")
         exit()
     
 class LexerException(TexException):
