@@ -57,52 +57,30 @@ class Evaluator:
         r = self.visit(node.right)
         l = self.visit(node.left)
 
-        # value = {
-        #     "+": types.Float(l.add(r)),
-        #     "-": types.Float(l.minus(r)),
-        #     "*": types.Float(l.multiply(r)),
-        #     "/": types.Float(l.divide(r)),
-        #     "%": types.Float(l.modulo(r)),
-
-        #     "=": types.Boolean(1 if l.val == r.val else 0),
-        #     "<": types.Boolean(1 if l.val < r.val else 0),
-        #     "<=": types.Boolean(1 if l.val <= r.val else 0),
-        #     ">": types.Boolean(1 if l.val > r.val else 0),
-        #     ">=": types.Boolean(1 if l.val >= r.val else 0),
-        #     "!=": types.Boolean(1 if l.val != r.val else 0),
-        # }
-
         if self.check_type(l,r,types.Float):
-            if node.op == '+':
-                return types.Float(l.add(r))
-            elif node.op == '-':
-                return types.Float(l.minus(r))
-            elif node.op == '/':
-                if r.val == 0:
-                    raise RunTimeException(node.line,"Division by 0.")
-                return types.Float(l.divide(r))
-            elif node.op == '*':
-                return types.Float(l.multiply(r))
-            elif node.op == '%':
-                return types.Float(l.modulo(r))
-                
-        if node.op == '=':
-            return types.Boolean(1 if l.val == r.val else 0)
-        elif node.op == '<':
-            return types.Boolean(1 if l.val < r.val else 0)
-        elif node.op == '<=':
-            return types.Boolean(1 if l.val <= r.val else 0)
-        elif node.op == '>':
-            return types.Boolean(1 if l.val > r.val else 0)
-        elif node.op == '>=':
-            return types.Boolean(1 if l.val >= r.val else 0)
-        elif node.op == '!=':
-            return types.Boolean(1 if l.val != r.val else 0)
-        
+            if r.val == 0 and node.op == '/': raise RunTimeException(node.line,"Division by 0.")
+            if r.val == 0 and node.op == '%': raise RunTimeException(node.line,"Modulo by 0.")
+            float_oper = {
+                "+": types.Float(l.add(r)),
+                "-": types.Float(l.minus(r)),
+                "*": types.Float(l.multiply(r)),
+                "/": types.Float(l.divide(r)) if r.val != 0 else 0,
+                "%": types.Float(l.modulo(r)) if r.val != 0 else 0
+            }
+            if node.op in float_oper.keys(): return float_oper[node.op]
+        bool_oper = {
+            "=": types.Boolean(1 if l.val == r.val else 0),
+            "<": types.Boolean(1 if l.val < r.val else 0),
+            "<=": types.Boolean(1 if l.val <= r.val else 0),
+            ">": types.Boolean(1 if l.val > r.val else 0),
+            ">=": types.Boolean(1 if l.val >= r.val else 0),
+            "!=": types.Boolean(1 if l.val != r.val else 0),
+        }      
         if node.op == "&&":
             return l.And(r)
-        if node.op == "||":
+        elif node.op == "||":
             return l.Or(r)
+        else: return bool_oper[node.op]
 
         raise RunTimeException(node.line,"Can not apply arithmetical operations on " + type(l).__name__ + " and " + type(r).__name__)
 
@@ -153,20 +131,22 @@ class Evaluator:
         val = self.visit(node.expr)
         if self.check_type(val, types.Boolean):
             if val.val == 1:
+                visit_else = False
                 for statement in node.block:
-                    visit_else = False
                     if True not in (self.do_break, self.do_continue): self.visit(statement)
+
             elif val.val == 0 and node.celse_stmts != None:
                 for celse_stmt in node.celse_stmts:
                     if self.visit(celse_stmt.expr).val == 1:
                         visit_else = False
                         for statement in celse_stmt.block:
-                            visit_else = False
                             if True not in (self.do_break, self.do_continue): self.visit(statement)
+
             if visit_else and node.else_stmt != None:
                 for statement in node.else_stmt.block:
                     if True not in (self.do_break, self.do_continue): self.visit(statement)
-        else: raise RunTimeException(node.line,"Expression must be of type Boolean.")
+        else:
+            raise RunTimeException(node.line,"Expression must be of type Boolean.")
 
     def v_WhileNode(self, node):
         while self.visit(node.expr).val == 1 and not self.do_break:
