@@ -1,6 +1,6 @@
 # The Tex Programming Language
 
-<img src="Tex_Logo.png" alt="Tex Logo" width="150"/>
+<img src="Tex_Logo.png" alt="Tex Logo" width="200"/>
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/Visual-mov/Tex-lang)
 
@@ -23,7 +23,7 @@ You can also run a Tex program in the form of a file. Specify the location of th
 ```
 ~$ python3 repl.py --file [path]
 ```
-Tex programs are files with the '.tx' extension.
+You can save Tex programs as files with the '.tx' extension.
 
 ## TODO
 - Implement context system ✔️
