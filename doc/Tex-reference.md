@@ -12,7 +12,7 @@ Tex is a dynamically typed language. A variable's type does not need to be decla
 println i         i + 1 -> i
             end
 ```
-Expressions can even be defined on multiple lines.
+Expressions and assignments can even be defined on multiple lines! Isn't that crazy!
 ```
 false
 ||
@@ -45,13 +45,15 @@ true -> d
 ### *Types*
 Tex has 3 different types: Float, String, and Boolean. All type checking is done at runtime.
 
-*Float* - Floats represent both floating-point numbers as well as integers in Tex.
+#### Float
+Floats represent both floating-point numbers as well as integers in Tex.
 ```
 5.5 + 2.9 -> myVar
 23 - 4 -> myVar2
 ```
 
-*String* - A String is a defined as being multiple between two double quotes. Strings can not span multiple lines.
+#### String
+A String is a defined as being multiple between two double quotes. Strings can not span multiple lines.
 ```
 "Foo" -> myString
 "Lo!" -> myString2
@@ -65,7 +67,8 @@ Compound Strings can be formed by adding multiple Strings together, or combining
 (100 + 100) / 50 + " is equal to 4." -> myString3
 ```
 
-*Boolean* - Booleans can have only one of two values, those being *true* or *false*. Only logical and comparison operations can be performed on booleans, which will evaluate to either *true* or *false*. In this case, myBool3 is equal to false.
+#### Boolean
+Booleans can have only one of two values, those being *true* or *false*. Only logical and comparison operations can be performed on booleans, which will evaluate to either *true* or *false*. In this case, myBool3 is equal to false.
 ```
 true -> myBool
 false -> myBool2
