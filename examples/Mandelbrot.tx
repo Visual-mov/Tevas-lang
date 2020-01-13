@@ -14,7 +14,6 @@ while[y <= scale]:
         za -> inita
         zb -> initb
         0 -> i
-        
         while[i < maxIter]:
             2 * za * zb -> tmp
             (za * za - zb * zb) + inita -> za

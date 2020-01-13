@@ -32,8 +32,8 @@ class String(Type):
     def __init__(self,val):
         super().__init__(val)
     
-    def add_string(self,str1):
-        self.val += str1
+    def append_string(self,str1):
+        return self.val + str(str1)
 
     def __repr__(self):
         return f'STRING: {self.val}'

@@ -11,10 +11,7 @@ while[n != 1]:
     end else:
         n * 3 + 1 -> n
     end
-    print "n = "
-    println n
+    println "n = " + n
     i + 1 -> i
 end
-print "Finished! It took "
-print i
-println " iterations." 
+println "Finished! It took " + i + " iterations"

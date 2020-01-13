@@ -49,6 +49,9 @@ class Evaluator:
         if type == None: return isinstance(l,r)
         else: return isinstance(l,type) and isinstance(r,type)
 
+    def check_either(self,l,r,type):
+        return self.check_type(l,type) or self.check_type(r,type)
+
     def add_scope(self, scope):
         scope.parent = self.scope_stack[len(self.scope_stack) - 1]
         self.scope_stack.append(scope)
@@ -60,27 +63,35 @@ class Evaluator:
         if self.check_type(l,r,types.Float):
             if r.val == 0 and node.op == '/': raise RunTimeException(node.line,"Division by 0.")
             if r.val == 0 and node.op == '%': raise RunTimeException(node.line,"Modulo by 0.")
-            float_oper = {
+            float_ops = {
                 "+": types.Float(l.add(r)),
                 "-": types.Float(l.minus(r)),
                 "*": types.Float(l.multiply(r)),
                 "/": types.Float(l.divide(r)) if r.val != 0 else 0,
-                "%": types.Float(l.modulo(r)) if r.val != 0 else 0
+                "%": types.Float(l.modulo(r)) if r.val != 0 else 0,
+
+                "<": types.Boolean(1 if l.val < r.val else 0),
+                "<=": types.Boolean(1 if l.val <= r.val else 0),
+                ">": types.Boolean(1 if l.val > r.val else 0),
+                ">=": types.Boolean(1 if l.val >= r.val else 0)
             }
-            if node.op in float_oper.keys(): return float_oper[node.op]
-        bool_oper = {
-            "=": types.Boolean(1 if l.val == r.val else 0),
-            "<": types.Boolean(1 if l.val < r.val else 0),
-            "<=": types.Boolean(1 if l.val <= r.val else 0),
-            ">": types.Boolean(1 if l.val > r.val else 0),
-            ">=": types.Boolean(1 if l.val >= r.val else 0),
-            "!=": types.Boolean(1 if l.val != r.val else 0),
-        }      
-        if node.op == "&&":
-            return l.And(r)
-        elif node.op == "||":
-            return l.Or(r)
-        else: return bool_oper[node.op]
+            if node.op in float_ops.keys():
+                return float_ops[node.op]
+
+        if self.check_type(l,r,types.Boolean):
+            if node.op == "&&":
+                return l.And(r)
+            elif node.op == "||":
+                return l.Or(r)
+        
+        if node.op == "=":
+            return types.Boolean(1 if l.val == r.val else 0)
+        elif node.op == "!=":
+            return types.Boolean(1 if l.val != r.val else 0)
+
+        if node.op == '+' and self.check_either(r,l,types.String):
+            if not self.check_either(r,l,types.Boolean):
+                return types.String(types.String(str(l.val)).append_string(r.val))
 
         raise RunTimeException(node.line,"Can not apply arithmetical operations on " + type(l).__name__ + " and " + type(r).__name__)
 

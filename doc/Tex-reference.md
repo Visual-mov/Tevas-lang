@@ -189,12 +189,13 @@ There exists two types of expressions in Tex, logical and arithmetical.
 ```
 = : Comparative equals (Is equal to)
 != : Comparative not equals (Is not equal to)
+&& : Logical AND
+|| : Logical OR
+
 < : Less than.
 > : Greater than.
 <= : Less than or equal to.
 >= : Greater than or equal to.
-&& : Logical AND
-|| : Logical OR
 ```
 #### Arithmetical Operators
 ```
