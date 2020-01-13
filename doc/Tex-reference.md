@@ -54,7 +54,15 @@ Tex has 3 different types: Float, String, and Boolean. All type checking is done
 *String* - A String is a defined as being multiple between two double quotes. Strings can not span multiple lines.
 ```
 "Foo" -> myString
-"Foo" + "bar: " + val -> myString2
+"Lo!" -> myString2
+```
+
+Compound Strings can be formed by adding multiple Strings together, or combining Strings with Floats. If a String is combined Boolean, it will result in a type conflict however. Like every other expression, compound Strings are evaluated from left to right. This means the expression `2 + 2 + " = 4"` would be evaluated to `"4.0 = 4"`, as `2 + 2` is first evaluated as an arithmetical expression, and is then turned into a compound String when added to the string `" = 4"`
+
+```
+"Lo" + "gin" -> myString
+100 + " many iterations!" -> myString2
+(100 + 100) / 50 + " is equal to 4." -> myString3
 ```
 
 *Boolean* - Booleans can have only one of two values, those being *true* or *false*. Only logical and comparison operations can be performed on booleans, which will evaluate to either *true* or *false*. In this case, myBool3 is equal to false.

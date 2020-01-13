@@ -27,7 +27,7 @@ Tex programs are files with the '.tx' extension.
 - Implement context system ✔️
 - Add 'continue' and 'break' keywords ✔️
 - Allow multiple Strings and Floats to be added together (Compound strings) ✔️
-- Fix all common exception edge-cases.
+- Allow for variable names to include numbers.
 - Fix line number for "Expected 'end' token" exception.
 - Add user-defined functions.
 - Add built-in functions for math, and input.
