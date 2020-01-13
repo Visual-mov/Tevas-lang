@@ -6,6 +6,8 @@
 
 Tex is a general-purpose dynamically-typed toy language written in Python. Tex's main goal is to be my first language and an exercise. As such, it's very simplistic and finicky. All planned features haven't been implemented yet, see *TODO* for the list.
 
+To start programming in Tex, check out the [Tex Reference](doc/Tex-reference.md)
+
 ## Getting Started
 Clone repo
 ```

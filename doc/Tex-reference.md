@@ -38,7 +38,7 @@ To declare a variable, use the store/assignment (->) operator. The expression on
 
 ```
 2 * (2 + 2) -> a
-(8.6 * 10.44) / 65 + myFunc(a) -> c
+(8.6 * 10.44) / 65 + 2 % 2.5 -> c
 true -> d
 ```
 
@@ -73,7 +73,6 @@ myBool = myBool2 -> myBool3
 ```
 
 ## Control Structures
-
 ### *Check*
 The if/else control structure checks whether a given expression is true, and subsequently executes or skips the following block statement to execute the optional *else* block. Zero or more *celse* (check-else) blocks can follow a *check* block, which will be evaluated if the *check* block fails. This structure is implemented in the Tex language with the the keywords *check*, *celse*, and *else*. 
 The given expression must evaluate to either true, or false. Expressions that evaluate to any other type are invalid.
@@ -124,7 +123,6 @@ end
 *continue* and *break* statements allow you to control a loop's execution. The *break* keyword allows you to break out of the given loop, and continue execution. While the *continue* keyword returns the execution to the beginning of the loop, as well as re-evaluating the exit condition given.
 
 #### Break
-
 ```
 0 -> i
 while[i < 5]:
@@ -143,7 +141,6 @@ Expected output:
 ```
 
 #### Continue
-
 ```
 0 -> i
 while[i < 5]:
@@ -166,7 +163,6 @@ Expected output:
 ```
 
 ## Other Statements
-
 ### *Print*
 Prints a given Float, Boolean, or String using stdout.
 
@@ -192,7 +188,6 @@ print myString
 There exists two types of expressions in Tex, logical and arithmetical.
 
 ### *Binary Operators*
-
 #### Logical Operators
 ```
 = : Comparative equals (Is equal to)
