@@ -1,7 +1,7 @@
 import re, sys
 from parse.parser import Parser
 from parse.tokenizer import Tokenizer
-import eval.evaluator as eval
+from eval import evaluator, Scope
 
 # The Tex Programming Language
 # www.github.com/Visual-mov/Tex-lang
@@ -25,9 +25,13 @@ def repl(argv):
         evaluator.eval()
     else:
         print("Tex Language REPL\nCreated by Ryan Danver 2019")
+        line = 1
         while run:
-            # Fix line issue
-            eval.Evaluator(Parser(Tokenizer(input(">> ") + "\n").lex()).parse(),gScope).eval()
+            try: Evaluator(Parser(Tokenizer(input(">> ").replace('\n','') + "\n", line).lex()).parse(),gScope).eval()
+            except KeyboardInterrupt:
+                print()
+                exit()
+            line += 1
 
 if __name__ == "__main__":
     repl(sys.argv)

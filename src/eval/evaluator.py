@@ -92,6 +92,7 @@ class Evaluator:
         if node.op == '+' and self.check_either(r,l,types.String):
             if not self.check_either(r,l,types.Boolean):
                 return types.String(types.String(str(l.val)).append_string(r.val))
+            else: raise RunTimeException(node.line,"Can not add Boolean to compound String")
 
         raise RunTimeException(node.line,"Can not apply arithmetical operations on " + type(l).__name__ + " and " + type(r).__name__)
 

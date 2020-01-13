@@ -31,12 +31,12 @@ class Token:
         return f'{self.line} | {self.type} : {repr(self.literal)}'
 
 class Tokenizer:
-    def __init__(self,source):
+    def __init__(self,source,line=None):
         self.i = 0
         if len(source) > 0:
             self.curtok = source[self.i]
         self.source = source
-        self.line = 1
+        self.line = 1 if line == None else line
         self.tokens = []
 
         self.keywords = [
