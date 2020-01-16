@@ -34,7 +34,7 @@ Comments can also come after tokens on the same line.
 `2 + 2 -> a  ~ Sets a equal to 4.`
 
 ## Variables
-To declare a variable, use the store/assignment (->) operator. The expression on the left operand is the value to be stored, while the token on the right operand is the variable identifier.
+To declare a variable, use the store/assignment (->) operator. The expression on the left operand is the value to be stored, while the token on the right operand is the identifier. Identifiers can contain numbers, however they can't start with them.
 
 ```
 2 * (2 + 2) -> a

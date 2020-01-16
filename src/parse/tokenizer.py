@@ -73,13 +73,13 @@ class Tokenizer:
                 self.tokens.append(Token(self.line,c,L_BRACKET if c == '[' else R_BRACKET))
             elif str.isdecimal(c): 
                 self.tokens.append(Token(self.line,self.get_digit(),NUM))
-            elif str.isalpha(c) or c in ("_"):
+            elif str.isalpha(c) or c in ('_'):
                 self.tokens.append(self.get_char_token())
             elif self.m("[+/*^%]",c): 
                 self.tokens.append(Token(self.line,c,OP))
             elif self.m("[()]",c): 
                 self.tokens.append(Token(self.line,c,L_PAREN if c == '(' else R_PAREN))
-
+            
             self.advance()
         self.append_EOF()
         return self.tokens
@@ -92,7 +92,7 @@ class Tokenizer:
         return self.source[index] if index < len(self.source) else None
         
     def get_char_token(self):
-        result = self.scan_match("[a-zA-Z_]")
+        result = self.scan_match("[a-zA-Z_0-9]")
         return Token(self.line, result, ID) if result not in self.keywords else Token(self.line,result,KEY)
     
     def get_digit(self):

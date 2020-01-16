@@ -21,7 +21,7 @@ def repl(argv):
         ast = Parser(tokens).parse()
         print(str(ast) + '\n')
         
-        evaluator = eval.Evaluator(ast,gScope)
+        evaluator = eval.Evaluator(ast, gScope)
         evaluator.eval()
     else:
         print("Tex Language REPL\nCreated by Ryan Danver 2019")
