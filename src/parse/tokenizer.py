@@ -96,7 +96,10 @@ class Tokenizer:
         return Token(self.line, result, ID) if result not in self.keywords else Token(self.line,result,KEY)
     
     def get_digit(self):
-        return float(self.scan_match("[0-9.]"))
+        val = self.scan_match("[0-9.]")
+        try: return float(val)
+        except ValueError:
+            raise LexerException(self.line,"Error lexing Float.")
 
     def double_lexeme(self, c, cp, expected_seek, type1, type2=L_OP):
         if cp != expected_seek:
@@ -105,13 +108,14 @@ class Tokenizer:
             self.tokens.append(Token(self.line,c+cp,type2))
             self.advance()
         
-    def scan(self, c):
+    def scan(self, expected_c):
         found = ""
         for index in range(self.i,len(self.source)):
-            found += self.source[index] if self.source[index] != c else ""
-            if self.peek() == c: break
-            elif self.source[index] == '\n' and c != '\n': 
-                raise LexerException(self.line,f"Expected '{c}' character.")
+            c = self.source[index]
+            found += c if c != expected_c else ""
+            if self.peek() == expected_c: break
+            elif c == EOF or index == len(self.source) - 1:
+                raise LexerException(self.line,f"Expected '{expected_c}' character.")
             else: self.advance()
         return found
 

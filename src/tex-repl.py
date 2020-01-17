@@ -27,7 +27,7 @@ def repl(argv):
         print("Tex Language REPL\nCreated by Ryan Danver 2019")
         line = 1
         while run:
-            try: eval.Evaluator(Parser(Tokenizer(input(">> ").replace('\n','') + "\n", line).lex()).parse(),gScope).eval()
+            try: eval.Evaluator(Parser(Tokenizer(input(">> ").replace('\n',''), line).lex()).parse(),gScope).eval()
             except KeyboardInterrupt:
                 print()
                 exit()
