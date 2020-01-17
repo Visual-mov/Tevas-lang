@@ -5,42 +5,33 @@ import parse.parser as parser
 
 # Evaluator
 
-# Context
-class Scope:
-    def __init__(self, name="", parent=None):
-        self.name = name
-        self.parent = parent
-        self.table = SymbolTable(parent)
-
 # Symbol Table
 class SymbolTable:
-    def __init__(self, parent=None):
+    def __init__(self):
         self.list = {}
-        self.parent = parent
 
     def put(self, key, value):
         self.list[key] = value
 
     def lookup(self, key):
-        val = self.list.get(key, None)
-        if val == None and self.parent != None:
-            return self.parent.lookup(key)
-        else: return val
+        return self.list.get(key, None)
 
     def remove(self, key):
         del list[key] 
         
 class Evaluator:
-    def __init__(self,tree,g_scope):
+    def __init__(self,tree,g_table,print_vars):
         self.tree = tree
-        self.scope_stack = []
-        self.scope_stack.append(g_scope)
+        self.g_table = g_table
+        self.print_vars = print_vars
         self.do_break = False
         self.do_continue = False
     
     def eval(self):
         for node in self.tree:
-            self.visit(node)
+            val = self.visit(node)
+            if val != None and self.print_vars:
+                print(val.get_literal())
     
     def visit(self,node):
         return getattr(self, f'v_{type(node).__name__}', self.v_Unknown)(node)
@@ -51,18 +42,14 @@ class Evaluator:
 
     def check_either(self,l,r,type):
         return self.check_type(l,type) or self.check_type(r,type)
-
-    def add_scope(self, scope):
-        scope.parent = self.scope_stack[len(self.scope_stack) - 1]
-        self.scope_stack.append(scope)
     
     def v_BinaryOpNode(self, node):
         r = self.visit(node.right)
         l = self.visit(node.left)
 
         if self.check_type(l,r,types.Float):
-            if r.val == 0 and node.op == '/': raise RunTimeException(node.line,"Division by 0.")
-            if r.val == 0 and node.op == '%': raise RunTimeException(node.line,"Modulo by 0.")
+            if r.val == 0 and node.op == '/': raise RunTimeException(node.line,"Division by 0")
+            if r.val == 0 and node.op == '%': raise RunTimeException(node.line,"Modulo by 0")
             float_ops = {
                 "+": types.Float(l.add(r)),
                 "-": types.Float(l.minus(r)),
@@ -119,13 +106,13 @@ class Evaluator:
 
     def v_VAssignmentNode(self, node):
         val = self.visit(node.expr)
-        self.scope_stack[0].table.put(node.id,val)
+        self.g_table.put(node.id,val)
         return val
 
     def v_VAccessNode(self, node):
-        var = self.scope_stack[0].table.lookup(node.id)
+        var = self.g_table.lookup(node.id)
         if var == None:
-            raise RunTimeException(node.line,f'"{node.id}" is not defined.')
+            raise RunTimeException(node.line,f'"{node.id}" is not defined')
         return var
     
     def v_PrintNode(self, node):
@@ -158,7 +145,7 @@ class Evaluator:
                 for statement in node.else_stmt.block:
                     if True not in (self.do_break, self.do_continue): self.visit(statement)
         else:
-            raise RunTimeException(node.line,"Expression must be of type Boolean.")
+            raise RunTimeException(node.line,"Expression must be of type Boolean")
 
     def v_WhileNode(self, node):
         while self.visit(node.expr).val == 1 and not self.do_break:
@@ -172,4 +159,4 @@ class Evaluator:
         self.do_continue = False
 
     def v_Unknown(self, node): 
-        raise RunTimeException(0,"Unknown node type.")
+        raise RunTimeException(0,"Unknown node type")
