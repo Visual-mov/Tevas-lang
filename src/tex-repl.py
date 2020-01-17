@@ -13,7 +13,9 @@ def repl(argv):
     gScope = eval.Scope("Global")
 
     if len(argv)-1 > 1 and argv[1] == "--file":
-        source = open(argv[2],'r').read()
+        try: source = open(argv[2],'r').read()
+        except FileNotFoundError:
+            repl_error(f"Can not find file: \"{argv[2]}\"")
         tokenizer = Tokenizer(source)
         tokens = tokenizer.lex()
         tokenizer.print_tokens()
@@ -29,9 +31,12 @@ def repl(argv):
         while run:
             try: eval.Evaluator(Parser(Tokenizer(input(">> ").replace('\n',''), line).lex()).parse(),gScope).eval()
             except KeyboardInterrupt:
-                print()
-                exit()
+                repl_error()
             line += 1
+
+def repl_error(message=""):
+    print(message)
+    exit()
 
 if __name__ == "__main__":
     repl(sys.argv)

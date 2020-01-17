@@ -99,7 +99,7 @@ class Tokenizer:
         val = self.scan_match("[0-9.]")
         try: return float(val)
         except ValueError:
-            raise LexerException(self.line,"Error lexing Float.")
+            raise LexerException(self.line,"Error lexing Float")
 
     def double_lexeme(self, c, cp, expected_seek, type1, type2=L_OP):
         if cp != expected_seek:
@@ -115,7 +115,7 @@ class Tokenizer:
             found += c if c != expected_c else ""
             if self.peek() == expected_c: break
             elif c == EOF or index == len(self.source) - 1:
-                raise LexerException(self.line,f"Expected '{expected_c}' character.")
+                raise LexerException(self.line,f"Expected '{expected_c}' character")
             else: self.advance()
         return found
 
