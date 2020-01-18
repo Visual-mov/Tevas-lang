@@ -2,9 +2,7 @@
 
 <img src="Tex_Logo.png" alt="Tex Logo" width="200"/>
 
-![GitHub last commit](https://img.shields.io/github/last-commit/Visual-mov/Tex-lang)
-
-Tex is a general-purpose dynamically-typed toy language written in Python. Tex's main goal exercise in demonstrating key programming concepts, such as control flow and variables. Tex is the first language I've ever written, and as such it's very simplistic and finicky. All planned features haven't been implemented yet, see *TODO* for the list.
+Tex is a general-purpose dynamically-typed toy language written in Python. Tex's main goal exercise in demonstrating key programming concepts, such as control flow and variables. It's the first language I've ever written, and as such it's very simplistic and finicky.
 
 To start programming in Tex, check out the [Tex Reference](doc/Tex-reference.md)
 
@@ -26,13 +24,7 @@ You can also run a Tex program in the form of a file. Specify the location of th
 You can save Tex programs as files with the '.tx' extension.
 
 ## TODO
-- Implement context system ✔️
 - Add 'continue' and 'break' keywords ✔️
 - Allow multiple Strings and Floats to be added together (Compound strings) ✔️
 - Allow for variable names to include numbers. ✔️
-- Add input statement
 - Fix line number for "Expected 'end' token" exception.
-
-## Project Status
-At this time, Tex is still in active development. I'm planning on continuing its development intermittently until February 2020 or so.
-

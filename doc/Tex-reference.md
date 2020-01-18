@@ -1,5 +1,17 @@
 # The Tex Programming Language Reference
 
+## REPL
+The Tex REPL takes in Tex code one line at a time. It will print the evaluated value of any expression entered into it. For example:
+```
+>> 2 + 2 = 4
+true
+>> (400 - 399)/2
+0.5
+>> "Hello" + " world!"
+Hello world!
+>>
+```
+
 ## Syntax
 Tex is a dynamically typed language. A variable's type does not need to be declared in assignment. All the type checking is done in runtime. Tex is not sensitive to indention (spaces and tabs), and line breaks. Line breaks are not tokenized, meaning Tex has no concept of them within the parser. This makes the syntax very "loose" feeling, meaning each one of these strings is a valid Tex program.
 
@@ -188,7 +200,7 @@ print myString
 `Output: Hello World!\n`
 
 ## Expressions
-There exists two types of expressions in Tex, logical and arithmetical.
+There exists three types of expressions in Tex, logical, arithmetical and compound Strings.
 
 ### *Binary Operators*
 #### Logical Operators
@@ -206,7 +218,7 @@ There exists two types of expressions in Tex, logical and arithmetical.
 #### Arithmetical Operators
 ```
 - : Subtract.
-+ : Add.
++ : Add. (Also used for compound Strings)
 * : Multiply.
 / : Divide.
 % : Modulo
