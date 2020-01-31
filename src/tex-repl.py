@@ -8,6 +8,8 @@ import eval.evaluator as eval
 #
 # Copywrite(c) Ryan Danver (Visual-mov) 2019
 
+DEBUG = False
+
 def repl(argv):
     run = True
     g_table = eval.SymbolTable()
@@ -18,12 +20,11 @@ def repl(argv):
             repl_error(f"Can not find file: \"{argv[2]}\"")
         tokenizer = Tokenizer(source)
         tokens = tokenizer.lex()
-        tokenizer.print_tokens()
-
         ast = Parser(tokens).parse()
-        print(str(ast) + '\n')
-        
         evaluator = eval.Evaluator(ast, g_table, False)
+        if DEBUG:
+            tokenizer.print_tokens()
+            print(str(ast) + '\n')
         evaluator.eval()
     else:
         print("Tex Language REPL\nCreated by Ryan Danver 2019")
