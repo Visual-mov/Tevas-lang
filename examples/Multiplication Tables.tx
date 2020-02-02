@@ -1,0 +1,13 @@
+~ Multiplication Tables
+~ 1/2/20
+
+~ Number to be multiplied:
+7 -> n
+~ Iterations:
+25 -> iters
+
+1 -> i
+while[i <= iters]:
+    println n + " x " + i + " = " + i*n
+    i + 1 -> i
+end

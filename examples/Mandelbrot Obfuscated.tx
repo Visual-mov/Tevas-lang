@@ -1,0 +1,25 @@
+~                Obfuscated Mandelbrot
+~                       2/1/20
+~              ( Supposed to be a tree )
+
+    50 -> scale 100 -> maxIter 0 -> x 0 -> y
+        while[y <= scale]: while[x <= scale*2]: -3
+            + (x / (scale*2) * 5) -> za -3 + (y / scale
+        * 5) -> zb za -> inita zb -> initb 0 -> i
+    while[i < maxIter]: 2 * za * zb -> tmp (za *
+        za - zb * zb) + inita -> za tmp + initb -> zb
+            check[za * za + zb * zb > 4]: break end i + 1
+        -> i end  check[i = maxIter]: print "#" end 
+                        celse[i <
+                        maxIter
+                        && i > 
+                        maxIter/
+                        10]:print
+                        "*" end 
+                        else:print
+                        "." end x
+                        + 1 -> x 
+                        end println
+                        "" 0 -> x 
+                        y + 1 -> y
+                        end
