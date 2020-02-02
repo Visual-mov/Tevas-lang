@@ -17,10 +17,10 @@ class SymbolTable:
         return self.list.get(key, None)
 
     def remove(self, key):
-        del list[key] 
+        del self.list[key] 
         
 class Evaluator:
-    def __init__(self,tree,g_table,print_vars):
+    def __init__(self, tree, g_table, print_vars):
         self.tree = tree
         self.g_table = g_table
         self.print_vars = print_vars
@@ -33,39 +33,39 @@ class Evaluator:
             if val != None and self.print_vars:
                 print(val.get_literal())
     
-    def visit(self,node):
+    def visit(self, node):
         return getattr(self, f'v_{type(node).__name__}', self.v_Unknown)(node)
 
-    def check_type(self,l,r,type=None):
-        if type == None: return isinstance(l,r)
-        else: return isinstance(l,type) and isinstance(r,type)
+    def check_type(self, l, r, type=None):
+        if type == None: return isinstance(l, r)
+        else: return isinstance(l, type) and isinstance(r, type)
 
-    def check_either(self,l,r,type):
-        return self.check_type(l,type) or self.check_type(r,type)
+    def check_either(self, l, r, type):
+        return self.check_type(l, type) or self.check_type(r, type)
     
     def v_BinaryOpNode(self, node):
         r = self.visit(node.right)
         l = self.visit(node.left)
 
-        if self.check_type(l,r,types.Float):
-            if r.val == 0 and node.op == '/': raise RunTimeException(node.line,"Division by 0")
-            if r.val == 0 and node.op == '%': raise RunTimeException(node.line,"Modulo by 0")
+        if self.check_type(l, r, types.Float):
+            if r.val == 0 and node.op == '/': raise RunTimeException(node.line, "Division by 0")
+            if r.val == 0 and node.op == '%': raise RunTimeException(node.line, "Modulo by 0")
             float_ops = {
-                "+": types.Float(l.add(r)),
-                "-": types.Float(l.minus(r)),
-                "*": types.Float(l.multiply(r)),
-                "/": types.Float(l.divide(r)) if r.val != 0 else 0,
-                "%": types.Float(l.modulo(r)) if r.val != 0 else 0,
+                "+": types.Float(l.add(r)), 
+                "-": types.Float(l.minus(r)), 
+                "*": types.Float(l.multiply(r)), 
+                "/": types.Float(l.divide(r)) if r.val != 0 else 0, 
+                "%": types.Float(l.modulo(r)) if r.val != 0 else 0, 
 
-                "<": types.Boolean(1 if l.val < r.val else 0),
-                "<=": types.Boolean(1 if l.val <= r.val else 0),
-                ">": types.Boolean(1 if l.val > r.val else 0),
+                "<": types.Boolean(1 if l.val < r.val else 0), 
+                "<=": types.Boolean(1 if l.val <= r.val else 0), 
+                ">": types.Boolean(1 if l.val > r.val else 0), 
                 ">=": types.Boolean(1 if l.val >= r.val else 0)
             }
             if node.op in float_ops.keys():
                 return float_ops[node.op]
 
-        if self.check_type(l,r,types.Boolean):
+        if self.check_type(l, r, types.Boolean):
             if node.op == "&&":
                 return l.And(r)
             elif node.op == "||":
@@ -76,24 +76,24 @@ class Evaluator:
         elif node.op == "!=":
             return types.Boolean(1 if l.val != r.val else 0)
 
-        if node.op == '+' and self.check_either(r,l,types.String):
-            if not self.check_either(r,l,types.Boolean):
+        if node.op == '+' and self.check_either(r, l, types.String):
+            if not self.check_either(r, l, types.Boolean):
                 return types.String(types.String(str(l.val)).append_string(r.val))
-            else: raise RunTimeException(node.line,"Can not add Boolean to compound String")
+            else: raise RunTimeException(node.line, "Can not add Boolean to compound String")
 
-        raise RunTimeException(node.line,"Can not apply arithmetical operations on " + type(l).__name__ + " and " + type(r).__name__)
+        raise RunTimeException(node.line, "Can not apply arithmetical operations on " + type(l).__name__ + " and " + type(r).__name__)
 
     def v_UnaryOpNode(self, node):
         val = self.visit(node.node)
-        if self.check_type(val,types.Float):
+        if self.check_type(val, types.Float):
             if node.op == '-':
                 return types.Float(val.val).negate()
             elif node.op == '+':
                 return types.Float(val.val).abs()
 
-        if node.op == '!' and self.check_type(val,types.Boolean):
+        if node.op == '!' and self.check_type(val, types.Boolean):
             return types.Boolean(val.val).Not()
-        else: raise RunTimeException(node.line,"Can not apply logical operations on " + type(val).__name__)
+        else: raise RunTimeException(node.line, "Can not apply logical operations on " + type(val).__name__)
 
     def v_NumNode(self, node):
         return types.Float(node.val)
@@ -106,13 +106,13 @@ class Evaluator:
 
     def v_VAssignmentNode(self, node):
         val = self.visit(node.expr)
-        self.g_table.put(node.id,val)
+        self.g_table.put(node.id, val)
         return val
 
     def v_VAccessNode(self, node):
         var = self.g_table.lookup(node.id)
         if var == None:
-            raise RunTimeException(node.line,f'"{node.id}" is not defined')
+            raise RunTimeException(node.line, f'"{node.id}" is not defined')
         return var
     
     def v_PrintNode(self, node):
@@ -125,7 +125,7 @@ class Evaluator:
         elif node.key == "continue":
             self.do_continue = True
 
-    def v_CheckNode(self,node):
+    def v_CheckNode(self, node):
         visit_else = True
         val = self.visit(node.expr)
         if self.check_type(val, types.Boolean):
@@ -145,7 +145,7 @@ class Evaluator:
                 for statement in node.else_stmt.block:
                     if True not in (self.do_break, self.do_continue): self.visit(statement)
         else:
-            raise RunTimeException(node.line,"Expression must be of type Boolean")
+            raise RunTimeException(node.line, "Expression must be of type Boolean")
 
     def v_WhileNode(self, node):
         while self.visit(node.expr).val == 1 and not self.do_break:
@@ -159,4 +159,4 @@ class Evaluator:
         self.do_continue = False
 
     def v_Unknown(self, node): 
-        raise RunTimeException(0,"Unknown node type")
+        raise RunTimeException(0, "Unknown node type")

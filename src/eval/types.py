@@ -9,7 +9,7 @@ class Type:
         return str(self.val)
 
 class Float(Type):
-    def __init__(self,val):
+    def __init__(self, val):
         super().__init__(val)
     
     def add(self, node):
@@ -29,22 +29,22 @@ class Float(Type):
         return f'FLOAT: {self.val}'
 
 class String(Type):
-    def __init__(self,val):
+    def __init__(self, val):
         super().__init__(val)
     
-    def append_string(self,str1):
+    def append_string(self, str1):
         return self.val + str(str1)
 
     def __repr__(self):
         return f'STRING: {self.val}'
 
 class Boolean(Type):
-    def __init__(self,val):
+    def __init__(self, val):
         super().__init__(val)
     
-    def And(self,bool):
+    def And(self, bool):
         return Boolean(1 if self.val == 1 and bool.val == 1 else 0)
-    def Or(self,bool):
+    def Or(self, bool):
         return Boolean(1 if self.val == 1 or bool.val == 1 else 0)
     def Not(self):
         return Boolean(1 if self.val == 0 else 0)
