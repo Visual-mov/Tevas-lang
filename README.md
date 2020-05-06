@@ -2,7 +2,7 @@
 
 <img src="Tex_Logo.png" alt="Tex Logo" width="200"/>
 
-Tex is a general-purpose dynamically-typed toy language written in Python. Tex's main goal exercise in demonstrating key programming concepts, such as control flow and variables. It's the first language I've ever written, and as such it's very simplistic and finicky.
+Tex is a general-purpose dynamically-typed toy language written in Python. Tex's main goal is to be an exercise in demonstrating key programming concepts, such as control flow and variables. It's the first language I've ever written, and as such it's very simplistic and finicky.
 
 To start programming in Tex, check out the [Tex Reference](doc/Tex-reference.md)
 
