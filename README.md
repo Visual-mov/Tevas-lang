@@ -14,7 +14,7 @@ Clone repo
 ```
 
 ## Use
-The Tex Language includes a REPL for executing Tex code directly.
+The Tex Language includes a REPL for executing Tex code directly. Simply execute the script:
 ```
 ~$ python3 tex-repl.py
 ```
@@ -22,4 +22,4 @@ You can also run a Tex program in the form of a file. Specify the location of th
 ```
 ~$ python3 tex-repl.py --file [path]
 ```
-You can save Tex programs as files with the '.tx' extension.
+Text program files use the '.tx' extension.

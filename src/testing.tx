@@ -1,5 +1,0 @@
-20 -> x
-34 -> y
-
-println x + " : " + y
-println (8.6 * 10.44) / 65 + 2 + " = n" + true

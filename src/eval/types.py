@@ -1,6 +1,6 @@
 from parse.parser import NumNode
 
-#! __repr__ ONLY USED FOR DEBUGGING
+#! __repr__ IS ONLY USED FOR DEBUGGING!
 
 class Type:
     def __init__(self, val):
@@ -53,4 +53,4 @@ class Boolean(Type):
         return "true" if self.val == 1 else "false"
 
     def __repr__(self):
-        return f'BOOL: {"true" if self.val == 1 else "false"}'
+        return f'BOOL: {self.get_literal()}'

@@ -3,9 +3,10 @@ import eval.types as types
 from exceptions import RunTimeException
 import parse.parser as parser
 
-# Evaluator
-
 # Symbol Table
+# The symbol table is used for storing variables and their values.
+# No logic exists to check for tables in a higher context, as tex
+# programs only have one scope.
 class SymbolTable:
     def __init__(self):
         self.list = {}
@@ -18,7 +19,10 @@ class SymbolTable:
 
     def remove(self, key):
         del self.list[key] 
-        
+
+# Evaluator class
+# Executes syntax tree. Stores all the actual "logic"
+# of the language.
 class Evaluator:
     def __init__(self, tree, g_table, print_vars):
         self.tree = tree
@@ -32,9 +36,6 @@ class Evaluator:
             val = self.visit(node)
             if val != None and self.print_vars:
                 print(val.get_literal())
-    
-    def visit(self, node):
-        return getattr(self, f'v_{type(node).__name__}', self.v_Unknown)(node)
 
     def check_type(self, l, r, type=None):
         if type == None: return isinstance(l, r)
@@ -42,14 +43,20 @@ class Evaluator:
 
     def check_either(self, l, r, type):
         return self.check_type(l, type) or self.check_type(r, type)
+
+    # Visit methods
+    def visit(self, node):
+        return getattr(self, f'v_{type(node).__name__}', self.v_Unknown)(node)
     
     def v_BinaryOpNode(self, node):
         r = self.visit(node.right)
         l = self.visit(node.left)
 
         if self.check_type(l, r, types.Float):
-            if r.val == 0 and node.op == '/': raise RunTimeException(node.line, "Division by 0")
-            if r.val == 0 and node.op == '%': raise RunTimeException(node.line, "Modulo by 0")
+            if r.val == 0 and node.op == '/':
+                raise RunTimeException(node.line, "Division by 0")
+            if r.val == 0 and node.op == '%':
+                raise RunTimeException(node.line, "Modulo by 0")
             float_ops = {
                 "+": types.Float(l.add(r)), 
                 "-": types.Float(l.minus(r)), 
@@ -93,7 +100,8 @@ class Evaluator:
 
         if node.op == '!' and self.check_type(val, types.Boolean):
             return types.Boolean(val.val).Not()
-        else: raise RunTimeException(node.line, "Can not apply logical operations on " + type(val).__name__)
+        else:
+            raise RunTimeException(node.line, "Can not apply logical operations on " + type(val).__name__)
 
     def v_NumNode(self, node):
         return types.Float(node.val)

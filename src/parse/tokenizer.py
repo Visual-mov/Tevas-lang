@@ -1,26 +1,22 @@
 import re
 from exceptions import LexerException
 
-# Lexer
-
-# Types
+# Token types
 EOF = "EOF"
-
 L_OP = "LOGICAL_OPERATOR"
 L_PAREN = "LEFT_PARENTHESIS"
 R_PAREN = "RIGHT_PARENTHESIS"
 L_BRACKET = "LEFT_BRACKET"
 R_BRACKET = "RIGHT_BRACKET"
-
 B_BLCK = "BEGIN_BLOCK"
 OP = "OPERATOR"
 ASSIGN = "ASSIGNMENT"
-
 NUM = "NUMBER"
 STR = "STRING"
 ID = "IDENTIFIER"
 KEY = "KEYWORD"
 
+# Token class
 class Token:
     def __init__(self, line, literal, type):
         self.line = line
@@ -30,6 +26,8 @@ class Token:
     def __repr__(self):
         return f'{self.line} | {self.type} : {repr(self.literal)}'
 
+# Lexer class
+# Takes raw text and packages into smaller tokens for the parser.
 class Tokenizer:
     def __init__(self, source, line=None):
         self.index = 0

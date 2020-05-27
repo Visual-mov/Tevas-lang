@@ -1,9 +1,8 @@
 from exceptions import ParserException
 import parse.tokenizer as tokenizer
 
-# Parser
-
-# Node types
+# Nodes for storing token data.
+# Data types
 class NumNode:
     def __init__(self, val, line):
         self.val = val
@@ -25,6 +24,7 @@ class BooleanNode:
     def __repr__(self):
         return f'{"true" if self.val == 1 else "false"}'
 
+# Operations
 class BinaryOpNode:
     def __init__(self, left, op, right, line):
         self.left = left
@@ -42,6 +42,7 @@ class UnaryOpNode:
     def __repr__(self):
         return f'{self.op}{self.node}'
 
+# Variables
 class VAssignmentNode:
     def __init__(self, expr, id, line):
         self.expr = expr
@@ -57,6 +58,7 @@ class VAccessNode:
     def __repr__(self):
         return f'[{self.id}]'
 
+# Control flow
 class CheckNode:
     def __init__(self, expr, block, celse_stmts, else_stmt, line):
         self.expr = expr
@@ -91,14 +93,6 @@ class WhileNode:
     def __repr__(self):
         return f'WHILE[{self.expr}]:\n {self.block}\n'
 
-class PrintNode:
-    def __init__(self, expr, line, println):
-        self.expr = expr
-        self.line = line
-        self.println = println
-    def __repr__(self):
-        return f'PRINT{"LN" if self.println else ""}[{self.expr}]\n'
-
 class FlowNode:
     def __init__(self, key, line):
         self.key = key
@@ -108,7 +102,18 @@ class FlowNode:
             return "CONTINUE"
         elif self.key == "break":
             return "BREAK"
-        
+
+# I/O (Only print)
+class PrintNode:
+    def __init__(self, expr, line, println):
+        self.expr = expr
+        self.line = line
+        self.println = println
+    def __repr__(self):
+        return f'PRINT{"LN" if self.println else ""}[{self.expr}]\n'
+
+# Parser class
+# Creates Abstract Syntax Tree (AST) from tokens array.  
 class Parser:
     def __init__(self, tokens):
         self.tokens = tokens
@@ -121,6 +126,7 @@ class Parser:
         if self.curtok == None: return
         else: return self.program()
     
+    # Helper functions
     def advance(self):
         self.index+=1
         if self.index < len(self.tokens):
@@ -150,7 +156,7 @@ class Parser:
         self.consume(tokenizer.B_BLCK, ':')
         return expr
 
-    # Productions
+    # Productions (See language grammar)
     def factor(self):
         tok = self.curtok
         if tok.type == tokenizer.NUM:

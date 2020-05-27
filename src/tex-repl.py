@@ -32,7 +32,7 @@ def repl(argv):
         except KeyboardInterrupt:
             repl_error()
     else:
-        print("Tex Language REPL\nCreated by Ryan Danver 2019")
+        print("Tex Language REPL")
         line = 1
         while run:
             try: 
