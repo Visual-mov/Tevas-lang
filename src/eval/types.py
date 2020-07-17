@@ -1,7 +1,5 @@
 from parse.parser import NumNode
 
-#! __repr__ IS ONLY USED FOR DEBUGGING!
-
 class Type:
     def __init__(self, val):
         self.val = val
@@ -22,8 +20,10 @@ class Float(Type):
         return self.val * node.val
     def modulo(self, node):
         return self.val % node.val
-    def negate(self): return Float(self.multiply(Float(-1)))
-    def abs(self): return Float(abs(self.val))
+    def negate(self):
+        return Float(self.multiply(Float(-1)))
+    def absolute(self):
+        return Float(abs(self.val))
 
     def __repr__(self):
         return f'FLOAT: {self.val}'

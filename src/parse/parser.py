@@ -1,7 +1,7 @@
 from exceptions import ParserException
 import parse.tokenizer as tokenizer
 
-# Nodes for storing token data.
+# Nodes for the AST
 # Data types
 class NumNode:
     def __init__(self, val, line):
@@ -43,7 +43,7 @@ class UnaryOpNode:
         return f'{self.op}{self.node}'
 
 # Variables
-class VAssignmentNode:
+class AssignmentNode:
     def __init__(self, expr, id, line):
         self.expr = expr
         self.id = id
@@ -51,7 +51,7 @@ class VAssignmentNode:
     def __repr__(self):
         return f'[{self.expr} -> {self.id}]\n'
 
-class VAccessNode:
+class AccessNode:
     def __init__(self, id, line):
         self.id = id
         self.line = line
@@ -164,7 +164,7 @@ class Parser:
             return NumNode(tok.literal, tok.line)
         elif tok.type == tokenizer.ID:
             self.advance()
-            return VAccessNode(tok.literal, tok.line)
+            return AccessNode(tok.literal, tok.line)
         elif tok.type == tokenizer.EOF:
             raise ParserException(self.curtok, tokenizer.EOF, "unex")
         elif tok.literal == "true" or tok.literal == "false":
@@ -207,8 +207,8 @@ class Parser:
         if self.curtok.type == tokenizer.ASSIGN:
             self.advance()
             id = self.factor()
-            if isinstance(id, VAccessNode):
-                return VAssignmentNode(expr, id.id, self.curtok.line)
+            if isinstance(id, AccessNode):
+                return AssignmentNode(expr, id.id, self.curtok.line)
             else:
                 raise ParserException(self.curtok.line, "Identifier", "ex")
         else: return expr

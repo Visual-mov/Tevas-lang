@@ -13,13 +13,9 @@ DEBUG = False
 def repl(argv):
     run = True
     g_table = eval.SymbolTable()
-
     if len(argv)-1 > 1 and argv[1] == "--file":
         try:
-            try:
-                source = open(argv[2], 'r').read()
-            except FileNotFoundError:
-                repl_error(f"Can not find file: \"{argv[2]}\"")
+            source = open(argv[2], 'r').read()
             tokenizer = Tokenizer(source)
             tokens = tokenizer.lex()
             if DEBUG: tokenizer.print_tokens()
@@ -29,8 +25,8 @@ def repl(argv):
 
             evaluator = eval.Evaluator(ast, g_table, False)
             evaluator.eval()
-        except KeyboardInterrupt:
-            repl_error()
+        except FileNotFoundError:
+            repl_error(f"Can not find file: \"{argv[2]}\"")
     else:
         print("Tex Language REPL")
         line = 1

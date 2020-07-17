@@ -21,8 +21,7 @@ class SymbolTable:
         del self.list[key] 
 
 # Evaluator class
-# Executes syntax tree. Stores all the actual "logic"
-# of the language.
+# Executes syntax tree. Stores all the actual rules and "logic" of the language.
 class Evaluator:
     def __init__(self, tree, g_table, print_vars):
         self.tree = tree
@@ -96,7 +95,7 @@ class Evaluator:
             if node.op == '-':
                 return types.Float(val.val).negate()
             elif node.op == '+':
-                return types.Float(val.val).abs()
+                return types.Float(val.val).absolute()
 
         if node.op == '!' and self.check_type(val, types.Boolean):
             return types.Boolean(val.val).Not()

@@ -11,8 +11,10 @@ class LexerException(TexException):
 
 class ParserException(TexException):
     def __init__(self, line, message="", type=""):
-        if type == "ex": message = f"Expected '{message}' token"
-        elif type == "unex": message = f"Unexpected '{message}' token"
+        if type == "ex":
+            message = f"Expected '{message}' token"
+        elif type == "unex":
+            message = f"Unexpected '{message}' token"
         super().__init__(line, "Parse error", message)
         
 class RunTimeException(TexException):

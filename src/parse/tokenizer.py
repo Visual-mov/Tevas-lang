@@ -27,7 +27,7 @@ class Token:
         return f'{self.line} | {self.type} : {repr(self.literal)}'
 
 # Lexer class
-# Takes raw text and packages into smaller tokens for the parser.
+# Takes the source text and converts it into smaller tokens (tokenization).
 class Tokenizer:
     def __init__(self, source, line=None):
         self.index = 0
