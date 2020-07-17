@@ -1,6 +1,4 @@
-Tex Formal Grammer
-
-Productions sorted by depth
+           -- Tex Formal Grammer --
 
 * - Zero or more times
 ? - Optional
@@ -8,41 +6,30 @@ Productions sorted by depth
 '' - Character/String
 -----------------------------------------------
 
-program := (statement)* EOF
+program     := (statement)* EOF
+block_stmt  := (statement)* {end}
+statement   := assignment
+             | print_stmt
+             | if_stmt
+             | while_stmt
+             | {continue} | {break}
 
-block_stmt := (statement)* {end}
-
-statement := assignment
-           | print_stmt
-           | if_stmt
-           | while_stmt
-           | {continue} | {break}
-
-print_stmt := {print} l_expr
-            | {println} l_expr
-
-if_stmt := {check} '[' l_expr ']' ':' block_stmt ifelse_stmt* else_stmt?
-
+print_stmt  := {print} l_expr | {println} l_expr
+if_stmt     := {check} '[' l_expr ']' ':' block_stmt ifelse_stmt* else_stmt?
 ifelse_stmt := {celse} '[' l_expr ']' ':' block_stmt 
+else_stmt   := {else} ':'  block_stmt 
 
-else_stmt := {else} ':'  block_stmt 
+while_stmt  := {while} '[' l_expr ']' ':' block_stmt
 
-while_stmt := {while} '[' l_expr ']' ':' block_stmt
+assignment  := cmpnd_expr '->' IDENTIFIER
 
-assignment := cmpnd_expr '->' IDENTIFIER
-
-cmpnd_expr := l_expr (('&&' | '||') l_expr)*
-
-l_expr := a_expr (('=' | '<=' | '>=' | '>' | '<' | '!=') a_expr)*
-        | '!' l_expr
-
-a_expr := term ((+ | -) term)*
-
-term := factor ((* | / | %) factor)*
-
-factor := FLOAT
-        | IDENTIFIER
-        | STRING
-        | {true} | {false}
-        | (- | +) factor
-        | '(' expr ')'
+cmpnd_expr  := l_expr (('&&' | '||') l_expr)*
+l_expr      := a_expr (('=' | '<=' | '>=' | '>' | '<' | '!=') a_expr)* | '!' l_expr
+a_expr      := term ((+ | -) term)*
+term        := factor ((* | / | %) factor)*
+factor      := FLOAT
+             | IDENTIFIER
+             | STRING
+             | {true} | {false}
+             | (- | +) factor
+             | '(' expr ')'

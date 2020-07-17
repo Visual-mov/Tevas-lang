@@ -13,7 +13,7 @@ Clone repo
 ~$ cd Tex-lang/src
 ```
 
-## Use
+## Usage
 The Tex Language includes a REPL for executing Tex code directly. Simply execute the script:
 ```
 ~$ python3 tex-repl.py

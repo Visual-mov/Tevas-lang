@@ -1,5 +1,4 @@
 # The Tex Programming Language Reference
-
 ## REPL
 The Tex REPL takes in Tex code one line at a time. It will print the evaluated value of any expression entered into it. For example:
 ```
@@ -13,7 +12,8 @@ Hello world!
 ```
 
 ## Syntax
-Tex is a dynamically typed language. A variable's type does not need to be declared in assignment. All the type checking is done in runtime. Tex is not sensitive to indention (spaces and tabs), and line breaks. Line breaks are not tokenized, meaning Tex has no concept of them within the parser. This makes the syntax very "loose" feeling, meaning each one of these strings is a valid Tex program.
+Tex is a dynamically typed language. A variable's type does not need to be declared in assignment. All the type checking is done in runtime. Tex is not sensitive to indention (spaces and tabs) and line breaks. Line breaks are not tokenized, meaning Tex has no concept of them within the parser. This makes the syntax very "loose" feeling.
+Each one of these strings is a valid Tex program.
 
 ` 2 -> a 2 -> b println a * b`
 
@@ -24,7 +24,7 @@ Tex is a dynamically typed language. A variable's type does not need to be decla
 println i         i + 1 -> i
             end
 ```
-Expressions and assignments can even be defined on multiple lines! Isn't that crazy!
+Expressions and assignments can even be declared on multiple lines! :O Isn't that crazy!
 ```
 false
 ||
@@ -36,7 +36,7 @@ myVar
 ```
 
 ## Comments
-Comments are signified in Tex with the tilde character, '~'. All tokens after the tilde on the same line will be ignored.
+Comments are signified in Tex with the tilde character, '~'. All characters after the tilde on the same line will be ignored.
 ```
 ~ This is my program!
 println "Hello World"
@@ -46,7 +46,7 @@ Comments can also come after tokens on the same line.
 `2 + 2 -> a  ~ Sets a equal to 4.`
 
 ## Variables
-To declare a variable, use the store/assignment (->) operator. The expression on the left operand is the value to be stored, while the token on the right operand is the identifier. Identifiers can contain numbers, however they can't start with them.
+To declare a variable, use the store/assignment (->) operator. The expression on the left operand is the value to be stored, while the identifier is on the right. Identifiers can contain numbers, however they can't start with them.
 
 ```
 2 * (2 + 2) -> a
@@ -58,17 +58,17 @@ true -> d
 Tex has 3 different types: Float, String, and Boolean. All type checking is done at runtime.
 
 #### Float
-Floats represent both floating-point numbers as well as integers in Tex.
+Floats represent numbers in Tex. There is no "integer" type in text.
 ```
 5.5 + 2.9 -> myVar
 23 - 4 -> myVar2
 ```
 
 #### String
-A String is a defined as being multiple between two double quotes. Strings can not span multiple lines.
+Strings are defined as being multiple characters between two double quotes. Strings can span multiple lines, however newline characters will be included.
 ```
-"Foo" -> myString
-"Lo!" -> myString2
+"Foo!" -> myString
+"Bar!" -> myString2
 ```
 
 Compound Strings can be formed by adding multiple Strings together, or combining Strings with Floats. If a String is combined Boolean, it will result in a type conflict however. Like every other expression, compound Strings are evaluated from left to right. This means the expression `2 + 2 + " = 4"` would be evaluated to `"4.0 = 4"`, as `2 + 2` is first evaluated as an arithmetical expression, and is then turned into a compound String when added to the string `" = 4"`
@@ -80,7 +80,7 @@ Compound Strings can be formed by adding multiple Strings together, or combining
 ```
 
 #### Boolean
-Booleans can have only one of two values, those being *true* or *false*. Only logical and comparison operations can be performed on booleans, which will evaluate to either *true* or *false*. In this case, myBool3 is equal to false.
+Booleans can have only one of two values, those being *true* or *false*. Only logical and comparison operations can be performed on booleans, which will evaluate to a boolean.
 ```
 true -> myBool
 false -> myBool2
@@ -89,8 +89,8 @@ myBool = myBool2 -> myBool3
 
 ## Control Structures
 ### *Check*
-The if/else control structure checks whether a given expression is true, and subsequently executes or skips the following block statement to execute the optional *else* block. Zero or more *celse* (check-else) blocks can follow a *check* block, which will be evaluated if the *check* block fails. This structure is implemented in the Tex language with the the keywords *check*, *celse*, and *else*. 
-The given expression must evaluate to either true, or false. Expressions that evaluate to any other type are invalid.
+The if/else control structure checks whether a given expression is true, and subsequently executes or skips the following block statement. Zero or more *celse* (check-else) statements can follow a *check* statement, which will be evaluated if the *check* statement fails. If these all evaluate to false, the optional *else* block will be executed.
+The given expression must evaluate to a boolean value. Expressions that evaluate to any other type are invalid.
 
 ```
 check[expr]:
@@ -104,22 +104,19 @@ else:
 end
 ```
 ```
-check[a = b]:
-  println "a is equal to b!"
+check[string = "Yes"]:
+  println "You said yes!"
 end
-celse[a > b]:
-  println "a is larger than b!"
-end
-celse[a < b]:
-  println "a is less than b!"
+celse[string = "No"]:
+  println "You said no!"
 end
 else:
-  println "Hold on, a is not equal to b!"
+  println "You didn't say yes or no!"
 end
 ```
 
 ### *While*
-The while control structure continues to execute its block statement until the given expression evaluates to false. While is the only loop/repetition structure that exists in Tex.
+The while control structure continues to execute all statements within it until the given expression is false. While is the only loop/repetition structure that exists in Tex.
 
 ```
 while[expr]:
@@ -135,7 +132,7 @@ while[i < 10]:
 end
 ```
 
-*continue* and *break* statements allow you to control a loop's execution. The *break* keyword allows you to break out of the given loop, and continue execution. While the *continue* keyword returns the execution to the beginning of the loop, as well as re-evaluating the exit condition given.
+*continue* and *break* keywords allow you to control a loop's execution. *break* allows you to break out of the given loop, and continue execution. While *continue* returns the execution to the beginning of the loop, as well as re-evaluating the exit condition.
 
 #### Break
 ```
@@ -179,25 +176,23 @@ Expected output:
 
 ## Other Statements
 ### *Print*
-Prints a given Float, Boolean, or String using stdout.
+Prints a given expression / variable using stdout.
 
 ```
-"Hello World!" -> myString
-print myString
-```
+print "Hello World!"
 
-`Output: Hello World!`
+Output: Hello World!
+```
 
 
 ### *Println*
-Same functionality as *print* statement, but appends a new-line character at the end of the given value.
+Same functionality as *print* statement, but appends a new-line character at the end of the value.
 
 ```
-"Hello World!" -> myString
-print myString
-```
+println "Hello World!"
 
-`Output: Hello World!\n`
+Output: Hello World!\n
+```
 
 ## Expressions
 There exists three types of expressions in Tex, logical, arithmetical and compound Strings.
@@ -210,17 +205,17 @@ There exists three types of expressions in Tex, logical, arithmetical and compou
 && : Logical AND
 || : Logical OR
 
-< : Less than.
-> : Greater than.
-<= : Less than or equal to.
->= : Greater than or equal to.
+< : Less than
+> : Greater than
+<= : Less than or equal to
+>= : Greater than or equal to
 ```
 #### Arithmetical Operators
 ```
-- : Subtract.
-+ : Add. (Also used for compound Strings)
-* : Multiply.
-/ : Divide.
+- : Subtract
++ : Add (Also used for compound Strings)
+* : Multiply
+/ : Divide
 % : Modulo
 ```
 
@@ -236,9 +231,9 @@ There exists three types of expressions in Tex, logical, arithmetical and compou
 - *continue* - Continue statement
 - *break* - Break statement
 - *check* - If/else control structure
-- *celse* - Optional of else-if block following if.
-- *else* - Optional else block following if.
-- *end* - Ends block statement.
+- *celse* - Optional of else-if block following if
+- *else* - Optional else block following if
+- *end* - Ends block statement
 - *print* - Print statement
 - *println* - Println statement
 - *true* - Logical true
