@@ -111,12 +111,12 @@ class Evaluator:
     def v_StringNode(self, node):
         return types.String(node.val)
 
-    def v_VAssignmentNode(self, node):
+    def v_AssignmentNode(self, node):
         val = self.visit(node.expr)
         self.g_table.put(node.id, val)
         return val
 
-    def v_VAccessNode(self, node):
+    def v_AccessNode(self, node):
         var = self.g_table.lookup(node.id)
         if var == None:
             raise RunTimeException(node.line, f'"{node.id}" is not defined')
