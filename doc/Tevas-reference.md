@@ -1,6 +1,6 @@
-# The Tex Programming Language Reference
+# The Tevas Programming Language Reference
 ## REPL
-The Tex REPL takes in Tex code one line at a time. It will print the evaluated value of any expression entered into it. For example:
+The Tevas REPL takes in Tevas code one line at a time. It will print the evaluated value of any expression entered into it. For example:
 ```
 >> 2 + 2 = 4
 true
@@ -12,8 +12,8 @@ Hello world!
 ```
 
 ## Syntax
-Tex is a dynamically typed language. A variable's type does not need to be declared in assignment. All the type checking is done in runtime. Tex is not sensitive to indention (spaces and tabs) and line breaks. Line breaks are not tokenized, meaning Tex has no concept of them within the parser. This makes the syntax very "loose" feeling.
-Each one of these strings is a valid Tex program.
+Tevas is a dynamically typed language. A variable's type does not need to be declared in assignment. All the type checking is done in runtime. Tevas is not sensitive to indention (spaces and tabs) and line breaks. Line breaks are not tokenized, meaning Tevas has no concept of them within the parser. This makes the syntax very "loose" feeling.
+Each one of these strings is a valid Tevas program.
 
 ` 2 -> a 2 -> b println a * b`
 
@@ -36,7 +36,7 @@ myVar
 ```
 
 ## Comments
-Comments are signified in Tex with the tilde character, '~'. All characters after the tilde on the same line will be ignored.
+Comments are signified in Tevas with the tilde character, '~'. All characters after the tilde on the same line will be ignored.
 ```
 ~ This is my program!
 println "Hello World"
@@ -55,10 +55,10 @@ true -> d
 ```
 
 ### *Types*
-Tex has 3 different types: Float, String, and Boolean. All type checking is done at runtime.
+Tevas has 3 different types: Float, String, and Boolean. All type checking is done at runtime.
 
 #### Float
-Floats represent numbers in Tex. There is no "integer" type in text.
+Floats represent numbers in Tevas. There is no "integer" type in Tevas.
 ```
 5.5 + 2.9 -> myVar
 23 - 4 -> myVar2
@@ -116,7 +116,7 @@ end
 ```
 
 ### *While*
-The while control structure continues to execute all statements within it until the given expression is false. While is the only loop/repetition structure that exists in Tex.
+The while control structure continues to execute all statements within it until the given expression is false. While is the only loop/repetition structure that exists in Tevas.
 
 ```
 while[expr]:
@@ -195,7 +195,7 @@ Output: Hello World!\n
 ```
 
 ## Expressions
-There exists three types of expressions in Tex, logical, arithmetical and compound Strings.
+There exists three types of expressions in Tevas, logical, arithmetical and compound Strings.
 
 ### *Binary Operators*
 #### Logical Operators

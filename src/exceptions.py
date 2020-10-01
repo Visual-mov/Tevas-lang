@@ -1,15 +1,15 @@
-class TexException:
+class TevasException:
     def __init__(self, line, errtype, message):
         self.line = line
         self.message = message
         print(u"\u001b[31m" + f'Line {line}: {errtype}.\n > {message}.' + u"\u001b[0m")
         exit()
     
-class LexerException(TexException):
+class LexerException(TevasException):
     def __init__(self, line, message):
         super().__init__(line, "Lex Error", message)
 
-class ParserException(TexException):
+class ParserException(TevasException):
     def __init__(self, line, message="", type=""):
         if type == "ex":
             message = f"Expected '{message}' token"
@@ -17,6 +17,6 @@ class ParserException(TexException):
             message = f"Unexpected '{message}' token"
         super().__init__(line, "Parse error", message)
         
-class RunTimeException(TexException):
+class RunTimeException(TevasException):
     def __init__(self, line, message):
-        super().__init__(line, "Tex Runtime error", message)
+        super().__init__(line, "Tevas Runtime error", message)

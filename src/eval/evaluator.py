@@ -5,7 +5,7 @@ import parse.parser as parser
 
 # Symbol Table
 # The symbol table is used for storing variables and their values.
-# No logic exists to check for tables in a higher context, as tex
+# No logic exists to check for tables in a higher context, as Tevas
 # programs only have one scope.
 class SymbolTable:
     def __init__(self):

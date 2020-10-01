@@ -3,10 +3,10 @@ from parse.parser import Parser
 from parse.tokenizer import Tokenizer
 import eval.evaluator as eval
 
-# The Tex Programming Language
-# www.github.com/Visual-mov/Tex-lang
+# The Tevas Programming Language v1.0
+# www.github.com/Visual-mov/tevas-lang
 #
-# Copywrite(c) Ryan Danver (Visual-mov) 2019
+# Copywrite(c) Ryan Danver (Visual-mov) 2020
 
 DEBUG = False
 
@@ -28,7 +28,7 @@ def repl(argv):
         except FileNotFoundError:
             repl_error(f"Can not find file: \"{argv[2]}\"")
     else:
-        print("Tex Language REPL")
+        print("Tevas Language REPL")
         line = 1
         while run:
             try: 
