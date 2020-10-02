@@ -2,7 +2,9 @@
 
 <!--<img src="Tevas_Logo.png" alt="Tevas Logo" width="200"/>-->
 
-Tevas is a general-purpose dynamically-typed toy language written in Python. Tevas's main goal is to be an exercise in demonstrating key programming concepts, such as control flow and variables. It's the first language I've ever written, and as such it's very simplistic and finicky.
+`Tevas v2.0 is currently in development.`
+
+Tevas, pronounced (Tev-AW-s), is a general-purpose dynamically-typed toy language. Tevas's main goal is to be an exercise in demonstrating key programming concepts, such as control flow and variables. It's the first language I've ever written, and as such it's very simplistic and finicky.
 
 To start programming in Tevas, check out the [Tevas Reference](doc/Tevas-reference.md)!
 
