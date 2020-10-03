@@ -3,8 +3,8 @@ from parse.parser import Parser
 from parse.tokenizer import Tokenizer
 import eval.evaluator as eval
 
-# The Tevas Programming Language v1.0
-# www.github.com/Visual-mov/tevas-lang
+# The Tevas Programming Language v2.0
+# www.github.com/Visual-mov/Tevas-lang
 #
 # Copywrite(c) Ryan Danver (Visual-mov) 2020
 
@@ -12,8 +12,9 @@ DEBUG = True
 
 def repl(argv):
     run = True
+
     g_table = eval.SymbolTable()
-    for s in argv: print(s)
+
     if len(argv) == 2:
         try:
             source = open(argv[1], 'r').read()
@@ -29,7 +30,7 @@ def repl(argv):
         except FileNotFoundError:
             repl_error(f"Can not find file: \"{argv[1]}\"")
     else:
-        print("Tevas Language REPL")
+        print("Tevas Language Shell")
         line = 1
         while run:
             try: 

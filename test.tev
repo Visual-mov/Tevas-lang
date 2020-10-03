@@ -1,0 +1,3 @@
+fun Sum[a,b]:
+    return a + b
+end

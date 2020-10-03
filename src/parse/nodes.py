@@ -108,3 +108,12 @@ class PrintNode:
         self.println = println
     def __repr__(self):
         return f'PRINT{"LN" if self.println else ""}[{self.expr}]\n'
+
+
+class FuncCallNode:
+    def __init__(self):
+        pass
+
+class FuncDefNode:
+    def __init__(self):
+        pass

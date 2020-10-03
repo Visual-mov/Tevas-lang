@@ -8,6 +8,7 @@ L_PAREN = "LEFT_PARENTHESIS"
 R_PAREN = "RIGHT_PARENTHESIS"
 L_BRACKET = "LEFT_BRACKET"
 R_BRACKET = "RIGHT_BRACKET"
+ARG_SEP = "ARGUMENT_SEPARATOR"
 B_BLCK = "BEGIN_BLOCK"
 OP = "OPERATOR"
 ASSIGN = "ASSIGNMENT"
@@ -43,7 +44,9 @@ class Tokenizer:
             "true","false",
             "print", "println",
             "end", "continue",
-            "break"
+            "break",
+            
+            "fun", "return"
         ]
 
     def lex(self):
@@ -63,6 +66,8 @@ class Tokenizer:
                 self.double_lexeme(c, cp, '=', L_OP)
             elif c == '=': 
                 self.tokens.append(Token(self.line, c, L_OP))
+            elif c == ',':
+                self.tokens.append(Token(self.line, c, ARG_SEP))
             elif c == self.peek():
                 if c in ('&', '|'): self.tokens.append(Token(self.line, c + self.peek(), L_OP))
             elif c == ':':
@@ -132,4 +137,5 @@ class Tokenizer:
         self.tokens.append(Token(self.line, "", EOF))
 
     def print_tokens(self):
-        for Token in self.tokens: print(Token)
+        for token in self.tokens:
+            print(token)
