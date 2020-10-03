@@ -1,4 +1,4 @@
-           -- Tex Formal Grammer --
+           -- Tevas Formal Grammer --
 
 * - Zero or more times
 ? - Optional
@@ -12,6 +12,8 @@ statement   := assignment
              | print_stmt
              | if_stmt
              | while_stmt
+             | func_stmt
+             | func_call
              | {continue} | {break}
 
 print_stmt  := {print} l_expr | {println} l_expr
@@ -27,9 +29,20 @@ cmpnd_expr  := l_expr (('&&' | '||') l_expr)*
 l_expr      := a_expr (('=' | '<=' | '>=' | '>' | '<' | '!=') a_expr)* | '!' l_expr
 a_expr      := term ((+ | -) term)*
 term        := factor ((* | / | %) factor)*
-factor      := FLOAT
+factor      := NUMBER
              | IDENTIFIER
              | STRING
              | {true} | {false}
              | (- | +) factor
              | '(' expr ')'
+
+-- dev --
+
+func_call := IDENTIFIER '[' arguments? ']'
+func_stmt := {fun} IDENTIFIER '[' arguments ']:' block_stmt
+fun_block_stmt := (statement)*
+return_stmt := {return} (cmpnd_expr | IDENTIFIER)
+
+arguments := IDENTIFIER (',' IDENTIFIER)*
+
+arr_def := 
