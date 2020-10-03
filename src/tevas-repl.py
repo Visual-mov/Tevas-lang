@@ -8,14 +8,15 @@ import eval.evaluator as eval
 #
 # Copywrite(c) Ryan Danver (Visual-mov) 2020
 
-DEBUG = False
+DEBUG = True
 
 def repl(argv):
     run = True
     g_table = eval.SymbolTable()
-    if len(argv)-1 > 1 and argv[1] == "--file":
+    for s in argv: print(s)
+    if len(argv) == 2:
         try:
-            source = open(argv[2], 'r').read()
+            source = open(argv[1], 'r').read()
             tokenizer = Tokenizer(source)
             tokens = tokenizer.lex()
             if DEBUG: tokenizer.print_tokens()
@@ -26,7 +27,7 @@ def repl(argv):
             evaluator = eval.Evaluator(ast, g_table, False)
             evaluator.eval()
         except FileNotFoundError:
-            repl_error(f"Can not find file: \"{argv[2]}\"")
+            repl_error(f"Can not find file: \"{argv[1]}\"")
     else:
         print("Tevas Language REPL")
         line = 1

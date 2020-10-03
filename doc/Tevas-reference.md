@@ -71,7 +71,7 @@ Strings are defined as being multiple characters between two double quotes. Stri
 "Bar!" -> myString2
 ```
 
-Compound Strings can be formed by adding multiple Strings together, or combining Strings with Floats. If a String is combined Boolean, it will result in a type conflict however. Like every other expression, compound Strings are evaluated from left to right. This means the expression `2 + 2 + " = 4"` would be evaluated to `"4.0 = 4"`, as `2 + 2` is first evaluated as an arithmetical expression, and is then turned into a compound String when added to the string `" = 4"`
+Compound Strings can be formed by adding multiple Strings together, or combining Strings with Floats. However if a String is combined with a Boolean, it will result in a type conflict. Like every other expression, compound Strings are evaluated from left to right. This means the expression `2 + 2 + " = 4"` would be evaluated to `"4.0 = 4"`, as `2 + 2` is first evaluated as an arithmetical expression, and is then turned into a compound String when added to the string `" = 4"`
 
 ```
 "Lo" + "gin" -> myString
