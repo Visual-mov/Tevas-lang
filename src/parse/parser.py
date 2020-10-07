@@ -1,6 +1,6 @@
 from exceptions import ParserException
 from parse.nodes import *
-import parse.tokenizer as tokenizer
+import parse.tokenizer as lex
 
 # Parser class
 # Creates Abstract Syntax Tree (AST) from tokens array.  
@@ -29,6 +29,12 @@ class Parser:
             return True
         else: raise ParserException(self.curtok.line, literal, "ex")
 
+    def peek(self):
+        if self.index+1 < len(self.tokens):
+            return self.tokens[self.index+1]
+        else:
+            return self.curtok
+
     def bin_op(self, func, ops):
         l = func()
         while self.curtok.literal in ops and not self.curtok.literal == "":
@@ -39,28 +45,28 @@ class Parser:
         return l
 
     def cond_stmt(self, key):
-        self.consume(tokenizer.KEY, key)
-        self.consume(tokenizer.L_BRACKET, '[')
+        self.consume(lex.KEY, key)
+        self.consume(lex.L_BRACKET, '[')
         expr = self.cmpnd_expr()
-        self.consume(tokenizer.R_BRACKET, ']')
-        self.consume(tokenizer.B_BLCK, ':')
+        self.consume(lex.R_BRACKET, ']')
+        self.consume(lex.B_BLCK, ':')
         return expr
 
-    # Productions (See language grammar)
+    # Productions
     def factor(self):
         tok = self.curtok
-        if tok.type == tokenizer.NUM:
+        if tok.type == lex.NUM:
             self.advance()
             return NumNode(tok.literal, tok.line)
-        elif tok.type == tokenizer.ID:
+        elif tok.type == lex.ID:
             self.advance()
             return AccessNode(tok.literal, tok.line)
-        elif tok.type == tokenizer.EOF:
-            raise ParserException(self.curtok, tokenizer.EOF, "unex")
+        elif tok.type == lex.EOF:
+            raise ParserException(self.curtok, lex.EOF, "unex")
         elif tok.literal == "true" or tok.literal == "false":
             self.advance()
             return BooleanNode(1 if tok.literal == "true" else 0, tok.line)
-        elif tok.type == tokenizer.STR:
+        elif tok.type == lex.STR:
             self.advance()
             return StringNode(tok.literal, tok.line)
         elif tok.literal in ("+", "-"):
@@ -94,7 +100,7 @@ class Parser:
 
     def assignment(self):
         expr = self.cmpnd_expr()
-        if self.curtok.type == tokenizer.ASSIGN:
+        if self.curtok.type == lex.ASSIGN:
             self.advance()
             id = self.factor()
             if isinstance(id, AccessNode):
@@ -109,8 +115,8 @@ class Parser:
         return PrintNode(expr, self.curtok.line, True if key == "println" else False)
 
     def else_stmt(self):
-        self.consume(tokenizer.KEY, "else")
-        self.consume(tokenizer.B_BLCK, ':')
+        self.consume(lex.KEY, "else")
+        self.consume(lex.B_BLCK, ':')
         return ElseNode(self.block_stmt(), self.curtok.line)
 
     def ifelse_stmt(self):
@@ -134,6 +140,15 @@ class Parser:
         block = self.block_stmt()
         return WhileNode(expr, block, self.curtok.line)
 
+    def arguments(self):
+        pass
+
+    def func_def_stmt(self):
+        pass
+
+    def func_call_stmt(self):
+        pass
+
     def statement(self):
         val = self.curtok.literal
         if val == "print" or val == "println":
@@ -147,12 +162,15 @@ class Parser:
             self.advance()
             return FlowNode(val, line)
         else:
-            return self.assignment()
+            if self.peek().type == lex.L_BRACKET:
+                return self.func_call_stmt()
+            else:
+                return self.assignment()
 
     def block_stmt(self):
         statements = []
         while self.curtok.literal != "end":
-            if self.curtok.type == tokenizer.EOF:
+            if self.curtok.type == lex.EOF:
                 raise ParserException(self.curtok.line, "end", "ex")
             statements.append(self.statement())
         self.advance()
@@ -160,6 +178,6 @@ class Parser:
     
     def program(self):
         statements = []
-        while self.curtok.type != tokenizer.EOF:
+        while self.curtok.type != lex.EOF:
             statements.append(self.statement())
         return statements

@@ -12,16 +12,22 @@ statement   := assignment
              | print_stmt
              | if_stmt
              | while_stmt
-             | func_stmt
-             | func_call
+             | func_def_stmt
+             | func_call_stmt
+             | return_stmt
              | {continue} | {break}
 
 print_stmt  := {print} l_expr | {println} l_expr
+
 if_stmt     := {check} '[' l_expr ']' ':' block_stmt ifelse_stmt* else_stmt?
 ifelse_stmt := {celse} '[' l_expr ']' ':' block_stmt 
 else_stmt   := {else} ':'  block_stmt 
-
 while_stmt  := {while} '[' l_expr ']' ':' block_stmt
+return_stmt := {return} (cmpnd_expr | IDENTIFIER)
+
+func_def_stmt  := {fun} IDENTIFIER '[' arguments ']:' block_stmt
+func_call_stmt := IDENTIFIER '[' arguments? ']'
+arguments := IDENTIFIER (',' IDENTIFIER)*
 
 assignment  := cmpnd_expr '->' IDENTIFIER
 
@@ -36,13 +42,5 @@ factor      := NUMBER
              | (- | +) factor
              | '(' expr ')'
 
--- dev --
 
-func_call := IDENTIFIER '[' arguments? ']'
-func_stmt := {fun} IDENTIFIER '[' arguments ']:' block_stmt
-fun_block_stmt := (statement)*
-return_stmt := {return} (cmpnd_expr | IDENTIFIER)
-
-arguments := IDENTIFIER (',' IDENTIFIER)*
-
-arr_def := 
+arr_def := '[' arguments ']'
