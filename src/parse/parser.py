@@ -140,6 +140,7 @@ class Parser:
         block = self.block_stmt()
         return WhileNode(expr, block, self.curtok.line)
 
+    # stub
     def arguments(self):
         pass
 
@@ -150,17 +151,19 @@ class Parser:
         pass
 
     def statement(self):
-        val = self.curtok.literal
-        if val == "print" or val == "println":
-            return self.print_stmt(val)
-        elif val == "check":
+        lit = self.curtok.literal
+        if lit == "print" or lit == "println":
+            return self.print_stmt(lit)
+        elif lit == "check":
             return self.if_stmt()
-        elif val == "while":
+        elif lit == "while":
             return self.while_stmt()
-        elif val in ("continue", "break"):
+        elif lit == "fun":
+            return self.func_def_stmt()
+        elif lit in ("continue", "break"):
             line = self.curtok.line
             self.advance()
-            return FlowNode(val, line)
+            return FlowNode(lit, line)
         else:
             if self.peek().type == lex.L_BRACKET:
                 return self.func_call_stmt()

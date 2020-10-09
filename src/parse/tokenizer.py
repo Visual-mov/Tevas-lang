@@ -52,9 +52,10 @@ class Tokenizer:
     def lex(self):
         while self.index < len(self.source):
             c = self.source[self.index]
+            print(c)
             cp = self.peek()
             if c == '~':
-                self.scan("\n")
+                self.scan_comment()
             elif c == '\n':
                 self.line += 1
             elif c == '-':
@@ -110,7 +111,11 @@ class Tokenizer:
         else:
             self.tokens.append(Token(self.line, c+cp, type2))
             self.advance()
-        
+    
+    def scan_comment(self):
+        while self.index < len(self.source) and self.source[self.index] != '\n':
+            self.advance()
+
     def scan(self, expected_c):
         found = ""
         for index in range(self.index, len(self.source)):
