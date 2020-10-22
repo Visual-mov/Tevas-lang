@@ -5,14 +5,11 @@ import eval.evaluator as eval
 
 # The Tevas Programming Language v2.0
 # www.github.com/Visual-mov/Tevas-lang
-#
-# Copywrite(c) Ryan Danver (Visual-mov) 2020
 
 DEBUG = True
 
 def repl(argv):
     run = True
-
     g_table = eval.SymbolTable()
 
     if len(argv) == 2:

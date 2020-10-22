@@ -13,8 +13,7 @@ class Parser:
         else: self.curtok = None
 
     def parse(self):
-        if self.curtok == None: return
-        else: return self.program()
+        return None if self.curtok == None else self.program()
     
     # Helper functions
     def advance(self):
@@ -27,7 +26,8 @@ class Parser:
         if self.curtok.type == type and self.curtok.literal == literal:
             self.advance()
             return True
-        else: raise ParserException(self.curtok.line, literal, "ex")
+        else:
+            raise ParserException(self.curtok.line, literal, "ex")
 
     def peek(self):
         if self.index+1 < len(self.tokens):
@@ -55,32 +55,28 @@ class Parser:
     # Productions
     def factor(self):
         tok = self.curtok
+        self.advance()
         if tok.type == lex.NUM:
-            self.advance()
             return NumNode(tok.literal, tok.line)
         elif tok.type == lex.ID:
-            self.advance()
             return AccessNode(tok.literal, tok.line)
         elif tok.type == lex.EOF:
             raise ParserException(self.curtok, lex.EOF, "unex")
         elif tok.literal == "true" or tok.literal == "false":
-            self.advance()
             return BooleanNode(1 if tok.literal == "true" else 0, tok.line)
         elif tok.type == lex.STR:
-            self.advance()
             return StringNode(tok.literal, tok.line)
         elif tok.literal in ("+", "-"):
-            self.advance()
             return UnaryOpNode(tok.literal, self.factor(), tok.line)
         elif tok.literal == '(':
-            self.advance()
             expr = self.a_expr()
             if self.curtok.literal == ')':
                 self.advance()
                 return expr
             else:
                 raise ParserException(tok.line, "Expected ')'")
-        else: raise ParserException(tok.line, tok.literal, "unex")
+        else:
+            raise ParserException(tok.line, tok.literal, "unex")
 
     def term(self):
         return self.bin_op(self.factor, ("*", "/", "%"))
@@ -107,7 +103,8 @@ class Parser:
                 return AssignmentNode(expr, id.id, self.curtok.line)
             else:
                 raise ParserException(self.curtok.line, "Identifier", "ex")
-        else: return expr
+        else:
+            return expr
 
     def print_stmt(self, key):
         self.advance()
@@ -148,7 +145,7 @@ class Parser:
         pass
 
     def func_call_stmt(self):
-        pass
+        args = self.arguments()
 
     def statement(self):
         lit = self.curtok.literal
@@ -165,10 +162,7 @@ class Parser:
             self.advance()
             return FlowNode(lit, line)
         else:
-            if self.peek().type == lex.L_BRACKET:
-                return self.func_call_stmt()
-            else:
-                return self.assignment()
+            return self.assignment()
 
     def block_stmt(self):
         statements = []

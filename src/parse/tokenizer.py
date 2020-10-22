@@ -52,7 +52,6 @@ class Tokenizer:
     def lex(self):
         while self.index < len(self.source):
             c = self.source[self.index]
-            print(c)
             cp = self.peek()
             if c == '~':
                 self.scan_comment()
