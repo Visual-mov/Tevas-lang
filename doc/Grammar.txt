@@ -10,7 +10,6 @@ program := statements EOF
 block := statements {end}
 
 statements := statement*
-
 statement   := assignment
              | print_stmt
              | if_stmt
@@ -36,8 +35,8 @@ assignment  := cmpnd_expr '->' IDENTIFIER
 cmpnd_expr  := l_expr (('&&' | '||') l_expr)*
 l_expr      := a_expr (('=' | '<=' | '>=' | '>' | '<' | '!=') a_expr)*
              | '!' l_expr
-a_expr      := term ((+ | -) term)*
-term        := factor ((* | / | %) factor)*
+a_expr      := term (('+' | '-') term)*
+term        := factor (('*' | '/' | '%') factor)*
 factor      := NUMBER
              | IDENTIFIER
              | STRING
@@ -45,6 +44,3 @@ factor      := NUMBER
              | (- | +) factor
              | '(' expr ')'
              | func_call_stmt
-
-
-# arr_def := '[' arguments ']'

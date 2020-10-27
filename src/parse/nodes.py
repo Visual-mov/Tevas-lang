@@ -117,7 +117,7 @@ class FuncCallNode:
         self.line = line
         self.arity = len(args)
     def __repr__(self):
-        return f''
+        return f'FUNC_CALL[CALLEE: {self.callee.literal}, ARGS: ({", ".join([repr(arg) for arg in self.args])})]\n'
 
 class FuncDefNode:
     def __init__(self, id, args, block, line):

@@ -10,7 +10,8 @@ class Parser:
         self.index = 0
         if len(self.tokens) > 0:
             self.curtok = tokens[self.index]
-        else: self.curtok = None
+        else:
+            self.curtok = None
 
     def parse(self):
         return None if self.curtok == None else self.program()
@@ -58,8 +59,6 @@ class Parser:
         self.advance()
         if tok.type == lex.NUM:
             return NumNode(tok.literal, tok.line)
-        elif tok.type == lex.ID:
-            return AccessNode(tok.literal, tok.line)
         elif tok.type == lex.EOF:
             raise ParserException(self.curtok, lex.EOF, "unex")
         elif tok.literal == "true" or tok.literal == "false":
@@ -75,6 +74,14 @@ class Parser:
                 return expr
             else:
                 raise ParserException(tok.line, "Expected ')'")
+        elif tok.type == lex.ID:
+            if self.curtok.type == lex.L_BRACKET:
+                self.advance()
+                args = self.arguments()
+                self.consume(lex.R_BRACKET, ']')
+                return FuncCallNode(tok, args, tok.line)
+            else:
+                return AccessNode(tok.literal, tok.line)
         else:
             raise ParserException(tok.line, tok.literal, "unex")
 
@@ -137,13 +144,21 @@ class Parser:
         block = self.block_stmt()
         return WhileNode(expr, block, self.curtok.line)
 
-    # stub
     def arguments(self):
-        pass
+        args = []
+        if self.curtok.type != lex.R_BRACKET:
+            print(f"\n{self.curtok}")
+            args.append(self.cmpnd_expr())
+            while self.curtok.type == lex.ARG_SEP:
+                self.advance()
+                args.append(self.cmpnd_expr())
+        return args
+
 
     def func_def_stmt(self):
         pass
 
+    #NOT USED
     def func_call_stmt(self):
         args = self.arguments()
 
