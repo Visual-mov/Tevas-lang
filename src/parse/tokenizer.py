@@ -53,6 +53,7 @@ class Tokenizer:
         while self.index < len(self.source):
             c = self.source[self.index]
             cp = self.peek()
+            print(self.m("[][]", c))
             if c == '~':
                 self.scan_comment()
             elif c == '\n':
@@ -68,11 +69,10 @@ class Tokenizer:
                 self.tokens.append(Token(self.line, c, L_OP))
             elif c == ',':
                 self.tokens.append(Token(self.line, c, ARG_SEP))
-            elif c == self.peek():
-                if c in ('&', '|'): self.tokens.append(Token(self.line, c + self.peek(), L_OP))
             elif c == ':':
                 self.tokens.append(Token(self.line, c, B_BLCK))
             elif self.m("[][]", c):
+                print(c)
                 self.tokens.append(Token(self.line, c, L_BRACKET if c == '[' else R_BRACKET))
             elif str.isdecimal(c): 
                 self.tokens.append(Token(self.line, self.get_digit(), NUM))
@@ -80,9 +80,11 @@ class Tokenizer:
                 self.tokens.append(self.get_char_token())
             elif self.m("[+/*^%]", c): 
                 self.tokens.append(Token(self.line, c, OP))
-            elif self.m("[()]", c): 
+            elif self.m("[()]", c):
                 self.tokens.append(Token(self.line, c, L_PAREN if c == '(' else R_PAREN))
-            
+            elif c == self.peek():
+                if c in ('&', '|'): self.tokens.append(Token(self.line, c + self.peek(), L_OP))
+
             self.advance()
         self.append_EOF()
         return self.tokens
