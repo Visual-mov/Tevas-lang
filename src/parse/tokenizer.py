@@ -45,7 +45,6 @@ class Tokenizer:
             "print", "println",
             "end", "continue",
             "break",
-            
             "fun", "return"
         ]
 

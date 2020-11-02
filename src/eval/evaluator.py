@@ -20,6 +20,9 @@ class SymbolTable:
     def remove(self, key):
         del self.list[key] 
 
+class Environment:
+    pass
+
 # Evaluator class
 # Executes syntax tree. Stores all the actual rules and "logic" of the language.
 class Evaluator:
@@ -37,8 +40,10 @@ class Evaluator:
                 print(val.get_literal())
 
     def check_type(self, l, r, type=None):
-        if type == None: return isinstance(l, r)
-        else: return isinstance(l, type) and isinstance(r, type)
+        if type == None:
+            return isinstance(l, r)
+        else:
+            return isinstance(l, type) and isinstance(r, type)
 
     def check_either(self, l, r, type):
         return self.check_type(l, type) or self.check_type(r, type)
@@ -85,7 +90,8 @@ class Evaluator:
         if node.op == '+' and self.check_either(r, l, types.String):
             if not self.check_either(r, l, types.Boolean):
                 return types.String(types.String(str(l.val)).append_string(r.val))
-            else: raise RunTimeException(node.line, "Can not add Boolean to compound String")
+            else:
+                raise RunTimeException(node.line, "Can not add Boolean to compound String")
 
         raise RunTimeException(node.line, "Can not apply arithmetical operations on " + type(l).__name__ + " and " + type(r).__name__)
 
@@ -137,33 +143,37 @@ class Evaluator:
         val = self.visit(node.expr)
         if self.check_type(val, types.Boolean):
             if val.val == 1:
-                visit_else = False
-                for statement in node.block:
-                    if True not in (self.do_break, self.do_continue): self.visit(statement)
+                self.execute_block(node.block)
+            else:
+                if node.celse_stmts != None:
+                    for celse_stmt in node.celse_stmts:
+                        if self.visit(celse_stmt.expr).val == 1:
+                            visit_else = False
+                            self.execute_block(celse_stmt.block)
 
-            elif val.val == 0 and node.celse_stmts != None:
-                for celse_stmt in node.celse_stmts:
-                    if self.visit(celse_stmt.expr).val == 1:
-                        visit_else = False
-                        for statement in celse_stmt.block:
-                            if True not in (self.do_break, self.do_continue): self.visit(statement)
-
-            if visit_else and node.else_stmt != None:
-                for statement in node.else_stmt.block:
-                    if True not in (self.do_break, self.do_continue): self.visit(statement)
+                if node.else_stmt != None and visit_else:
+                    self.execute_block(node.else_stmt.block)
         else:
             raise RunTimeException(node.line, "Expression must be of type Boolean")
+    
+    def execute_block(self, block):
+        for statement in block:
+            if True not in (self.do_break, self.do_continue):
+                self.visit(statement)
 
     def v_WhileNode(self, node):
         while self.visit(node.expr).val == 1 and not self.do_break:
             for statement in node.block:
-                if self.do_continue or self.do_break: break
+                if self.do_continue or self.do_break:
+                    break
                 self.visit(statement)
             if self.do_continue:
                 self.do_continue = False
                 continue
         self.do_break = False
-        self.do_continue = False
+
+    def v_FuncCallNode(self, node):
+        print(node)
 
     def v_Unknown(self, node): 
         raise RunTimeException(0, "Unknown node type")
