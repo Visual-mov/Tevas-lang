@@ -45,14 +45,12 @@ class Tokenizer:
             "print", "println",
             "end", "continue",
             "break",
-            "fun", "return"
         ]
 
     def lex(self):
         while self.index < len(self.source):
             c = self.source[self.index]
             cp = self.peek()
-            print(self.m("[][]", c))
             if c == '~':
                 self.scan_comment()
             elif c == '\n':
@@ -121,7 +119,8 @@ class Tokenizer:
         for index in range(self.index, len(self.source)):
             c = self.source[index]
             found += c if c != expected_c else ""
-            if self.peek() == expected_c: break
+            if self.peek() == expected_c:
+                break
             elif c == EOF or index == len(self.source) - 1:
                 raise LexerException(self.line, f"Expected '{expected_c}' character")
             else: self.advance()

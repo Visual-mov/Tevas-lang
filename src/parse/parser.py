@@ -147,7 +147,6 @@ class Parser:
     def arguments(self):
         args = []
         if self.curtok.type != lex.R_BRACKET:
-            print(f"\n{self.curtok}")
             args.append(self.cmpnd_expr())
             while self.curtok.type == lex.ARG_SEP:
                 self.advance()

@@ -10,13 +10,12 @@ program := statements EOF
 block := statements {end}
 
 statements := statement*
-statement   := assignment
-             | print_stmt
-             | if_stmt
-             | while_stmt
-             | func_def_stmt
-             | return_stmt
-             | {continue} | {break}
+statement  := assignment
+            | print_stmt
+            | if_stmt
+            | while_stmt
+            | return_stmt
+            | {continue} | {break}
 
 print_stmt  := {print} l_expr | {println} l_expr
 
@@ -24,11 +23,6 @@ if_stmt     := {check} '[' l_expr ']' ':' block ifelse_stmt* else_stmt?
 ifelse_stmt := {celse} '[' l_expr ']' ':' block 
 else_stmt   := {else} ':'  block 
 while_stmt  := {while} '[' l_expr ']' ':' block
-return_stmt := {return} (cmpnd_expr | IDENTIFIER)
-
-func_def_stmt  := {fun} IDENTIFIER '[' arguments ']' ':' block
-func_call_stmt := IDENTIFIER '[' arguments? ']'
-arguments := cmpnd_expr (',' cmpnd_expr)*
 
 assignment  := cmpnd_expr '->' IDENTIFIER
 
@@ -43,4 +37,3 @@ factor      := NUMBER
              | {true} | {false}
              | (- | +) factor
              | '(' expr ')'
-             | func_call_stmt

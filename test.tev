@@ -1,6 +1,0 @@
-fun Sum[a,b]:
-    return a + b
-end
-
-~ Sum[2,2] -> result
-~ Println[result]

@@ -1,3 +1,0 @@
-# Tevas Standard Library
-# Math
-
