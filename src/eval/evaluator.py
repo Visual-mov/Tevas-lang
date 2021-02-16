@@ -7,6 +7,7 @@ import parse.parser as parser
 # The symbol table is used for storing variables and their values.
 # No logic exists to check for tables in a higher context, as Tevas
 # programs only have one scope.
+
 class SymbolTable:
     def __init__(self):
         self.list = {}
@@ -25,6 +26,7 @@ class Environment:
 
 # Evaluator class
 # Executes syntax tree. Stores all the actual rules and "logic" of the language.
+
 class Evaluator:
     def __init__(self, tree, g_table, print_vars):
         self.tree = tree
@@ -33,7 +35,7 @@ class Evaluator:
         self.do_break = False
         self.do_continue = False
     
-    def eval(self):
+    def evaluate(self):
         for node in self.tree:
             val = self.visit(node)
             if val != None and self.print_vars:
