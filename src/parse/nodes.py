@@ -100,7 +100,7 @@ class FlowNode:
         elif self.key == "break":
             return "BREAK"
 
-# Print (to be deprecated)
+# Print
 class PrintNode:
     def __init__(self, expr, line, println):
         self.expr = expr
@@ -108,21 +108,3 @@ class PrintNode:
         self.println = println
     def __repr__(self):
         return f'PRINT{"LN" if self.println else ""}[{self.expr}]\n'
-
-
-class FuncCallNode:
-    def __init__(self, callee, args, line):
-        self.callee = callee
-        self.args = args
-        self.line = line
-        self.arity = len(args)
-    def __repr__(self):
-        return f'FUNC_CALL[CALLEE: {self.callee.literal}, ARGS: ({", ".join([repr(arg) for arg in self.args])})]\n'
-
-class FuncDefNode:
-    def __init__(self, id, args, block, line):
-        self.id = id
-        self.args = args
-        self.block = block
-        self.line = line
-        self.arity = len(args)

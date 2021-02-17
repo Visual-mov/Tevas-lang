@@ -6,7 +6,7 @@ import eval.evaluator as eval
 # The Tevas Programming Language
 # www.github.com/Visual-mov/Tevas-lang
 
-DEBUG = True
+DEBUG = False
 
 def repl(argv):
     run = True
@@ -17,10 +17,11 @@ def repl(argv):
             source = open(argv[1], 'r').read()
             tokenizer = Tokenizer(source)
             tokens = tokenizer.lex()
-            if DEBUG: tokenizer.print_tokens()
-
             ast = Parser(tokens).parse()
-            if DEBUG: print(str(ast) + '\n')
+
+            if DEBUG:
+                tokenizer.print_tokens()
+                print(str(ast) + '\n')
 
             evaluator = eval.Evaluator(ast, table, False)
             evaluator.evaluate()

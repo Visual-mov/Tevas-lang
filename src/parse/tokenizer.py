@@ -69,7 +69,6 @@ class Tokenizer:
             elif c == ':':
                 self.tokens.append(Token(self.line, c, B_BLCK))
             elif self.m("[][]", c):
-                print(c)
                 self.tokens.append(Token(self.line, c, L_BRACKET if c == '[' else R_BRACKET))
             elif str.isdecimal(c): 
                 self.tokens.append(Token(self.line, self.get_digit(), NUM))

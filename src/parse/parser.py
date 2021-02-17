@@ -153,14 +153,6 @@ class Parser:
                 args.append(self.cmpnd_expr())
         return args
 
-
-    def func_def_stmt(self):
-        pass
-
-    #NOT USED
-    def func_call_stmt(self):
-        args = self.arguments()
-
     def statement(self):
         lit = self.curtok.literal
         if lit == "print" or lit == "println":
@@ -169,8 +161,6 @@ class Parser:
             return self.if_stmt()
         elif lit == "while":
             return self.while_stmt()
-        elif lit == "fun":
-            return self.func_def_stmt()
         elif lit in ("continue", "break"):
             line = self.curtok.line
             self.advance()

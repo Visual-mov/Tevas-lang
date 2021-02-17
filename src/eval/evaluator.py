@@ -174,8 +174,5 @@ class Evaluator:
                 continue
         self.do_break = False
 
-    def v_FuncCallNode(self, node):
-        print(node)
-
     def v_Unknown(self, node): 
         raise RunTimeException(0, "Unknown node type")
